@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم الإدارية - مجموعة معارض أهل كار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        accentGold: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- شاشة تسجيل الدخول التأمينية -->
+    <div id="auth-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+        <div class="bg-cardBg border border-slate-800 p-8 rounded-3xl max-w-md w-full shadow-2xl text-center">
+            <div class="w-16 h-16 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">لوحة التحكم المؤمنة</h2>
+            <p class="text-slate-400 text-sm mb-6">يرجى إدخال كلمة المرور السرية للوصول لإدارة المعرض.</p>
+            <form id="login-form" class="space-y-4">
+                <input type="password" id="admin-pass" required placeholder="كلمة المرور (الافتراضية: 1234)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3.5 text-center text-lg tracking-widest text-white focus:border-amber-500 outline-none">
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-xl transition shadow-lg">دخول اللوحة</button>
+            </form>
+            <div class="mt-4">
+                <a href="index.html" class="text-slate-500 hover:text-slate-300 text-sm">العودة إلى الموقع الرئيسي</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- محتوى لوحة التحكم (محمي) -->
+    <div id="admin-content" class="hidden flex-1 flex flex-col">
+        <header class="bg-cardBg border-b border-slate-800">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <h1 class="text-xl font-bold text-accentGold flex items-center gap-2">
+                    <i class="fa-solid fa-gauge-high"></i> لوحة إدارة معارض أهل كار
+                </h1>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="text-slate-400 hover:text-white text-sm border border-slate-700 px-3 py-1.5 rounded-lg bg-slate-900">عرض الموقع</a>
+                    <button onclick="logout()" class="text-red-400 hover:text-red-300 text-sm border border-red-900/50 px-3 py-1.5 rounded-lg bg-red-950/20">خروج</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1">
+            
+            <!-- فورم الإضافة -->
+            <div class="bg-cardBg p-6 rounded-2xl border border-slate-800 shadow-xl h-fit">
+                <h3 class="text-lg font-bold mb-4 text-accentGold border-b border-slate-700 pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle"></i> إضافة سيارة جديدة
+                </h3>
+                <form id="add-car-form" class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">اسم السيارة والموديل</label>
+                        <input type="text" id="car-name" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none" placeholder="مثال: تويوتا كامري 2026">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">القسم</label>
+                        <select id="car-type" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none">
+                            <option value="new">عربيات جديدة</option>
+                            <option value="used">عربيات مستعملة</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">السعر (بالريال)</label>
+                        <input type="text" id="car-price" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none" placeholder="مثال: 110,000 ر.س">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">روابط الصور (ضع كل رابط في سطر منفصل)</label>
+                        <textarea id="car-images" rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none text-xs" placeholder="https://image1.jpg&#10;https://image2.jpg"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-slate-400 mb-1">وصف مختصر</label>
+                        <textarea id="car-desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none" placeholder="المواصفات والخصائص..."></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg">نشر السيارة في المعرض</button>
+                </form>
+            </div>
+
+            <!-- قائمة الإدارة والحذف -->
+            <div class="lg:col-span-2 bg-cardBg p-6 rounded-2xl border border-slate-800 shadow-xl">
+                <h3 class="text-lg font-bold mb-4 text-accentGold border-b border-slate-700 pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> قائمة سيارات المعرض (إدارة وحذف)
+                </h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-400 text-sm">
+                                <th class="py-3 px-3">السيارة</th>
+                                <th class="py-3 px-3">القسم</th>
+                                <th class="py-3 px-3">السعر</th>
+                                <th class="py-3 px-3 text-center">إجراءات الحذف</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-cars-list" class="divide-y divide-slate-800 text-sm">
+                            <!-- جدول السيارات -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="bg-cardBg border-t border-slate-800 py-6 text-center text-slate-500 text-sm">
+        <p>جميع الحقوق محفوظة © 2026 - مجموعة معارض أهل كار</p>
+    </footer>
+
+    <script>
+        // التحقق من الجلسة الأمنية
+        if (sessionStorage.getItem('admin_logged') === 'true') {
+            document.getElementById('auth-modal').classList.add('hidden');
+            document.getElementById('admin-content').classList.remove('hidden');
+            renderAdminTable();
+        }
+
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === '1234') { // كلمة المرور الافتراضية
+                sessionStorage.setItem('admin_logged', 'true');
+                document.getElementById('auth-modal').classList.add('hidden');
+                document.getElementById('admin-content').classList.remove('hidden');
+                renderAdminTable();
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        });
+
+        function logout() {
+            sessionStorage.removeItem('admin_logged');
+            location.reload();
+        }
+
+        function getCars() {
+            return JSON.parse(localStorage.getItem('cars_db')) || [];
+        }
+
+        function saveCars(cars) {
+            localStorage.setItem('cars_db', JSON.stringify(cars));
+        }
+
+        function renderAdminTable() {
+            const list = document.getElementById('admin-cars-list');
+            list.innerHTML = '';
+            const cars = getCars();
+
+            if(cars.length === 0) {
+                list.innerHTML = `<tr><td colspan="4" class="text-center text-slate-500 py-6">لا توجد سيارات مضافة حالياً.</td></tr>`;
+                return;
+            }
+
+            cars.forEach(car => {
+                const firstImg = car.images && car.images.length > 0 ? car.images[0] : '';
+                list.innerHTML += `
+                    <tr class="hover:bg-slate-900/50 transition">
+                        <td class="py-3 px-3 flex items-center gap-3">
+                            <img src="${firstImg}" class="w-12 h-10 object-cover rounded-lg border border-slate-700">
+                            <span class="font-bold text-white">${car.name}</span>
+                        </td>
+                        <td class="py-3 px-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${car.type === 'new' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-300 border border-slate-700'}">
+                                ${car.type === 'new' ? 'جديدة' : 'مستعملة'}
+                            </span>
+                        </td>
+                        <td class="py-3 px-3 text-amber-400 font-bold">${car.price}</td>
+                        <td class="py-3 px-3 text-center">
+                            <button onclick="deleteCar(${car.id})" class="bg-red-600/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs transition shadow">
+                                <i class="fa-solid fa-trash ml-1"></i> حذف الإعلان
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        document.getElementById('add-car-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const cars = getCars();
+            
+            const rawImages = document.getElementById('car-images').value;
+            const imagesArray = rawImages.split('\n').map(img => img.trim()).filter(img => img.length > 0);
+
+            const newCar = {
+                id: Date.now(),
+                name: document.getElementById('car-name').value,
+                type: document.getElementById('car-type').value,
+                price: document.getElementById('car-price').value,
+                images: imagesArray.length > 0 ? imagesArray : ['https://via.placeholder.com/600x400'],
+                desc: document.getElementById('car-desc').value
+            };
+
+            cars.unshift(newCar);
+            saveCars(cars);
+            renderAdminTable();
+            this.reset();
+            alert('تم نشر السيارة بنجاح في المعرض!');
+        });
+
+        window.deleteCar = function(id) {
+            if(confirm('هل أنت متأكد من حذف هذا الإعلان نهائياً من المعرض؟')) {
+                let cars = getCars();
+                cars = cars.filter(c => c.id !== id);
+                saveCars(cars);
+                renderAdminTable();
+            }
+        }
+    </script>
+</body>
+</html>
