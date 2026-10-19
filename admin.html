@@ -29,7 +29,7 @@
                 <i class="fa-solid fa-lock"></i>
             </div>
             <h2 class="text-2xl font-bold mb-2">لوحة التحكم المؤمنة</h2>
-            <p class="text-slate-400 text-sm mb-6">يرجى إدخال كلمة المرور السرية للوصول لإدارة المعرض.</p>
+            <p class="text-slate-400 text-sm mb-6">يرجى إدخال كلمة المرور السرية للوصول لإدارة المعرض السحابي.</p>
             <form id="login-form" class="space-y-4">
                 <input type="password" id="admin-pass" required placeholder="كلمة المرور (الافتراضية: 1234)" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3.5 text-center text-lg tracking-widest text-white focus:border-amber-500 outline-none">
                 <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-xl transition shadow-lg">دخول اللوحة</button>
@@ -45,7 +45,7 @@
         <header class="bg-cardBg border-b border-slate-800">
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <h1 class="text-xl font-bold text-accentGold flex items-center gap-2">
-                    <i class="fa-solid fa-gauge-high"></i> لوحة إدارة معارض أهل كار
+                    <i class="fa-solid fa-gauge-high"></i> لوحة إدارة معارض أهل كار (السحابية)
                 </h1>
                 <div class="flex items-center gap-4">
                     <a href="index.html" class="text-slate-400 hover:text-white text-sm border border-slate-700 px-3 py-1.5 rounded-lg bg-slate-900">عرض الموقع</a>
@@ -59,7 +59,7 @@
             <!-- فورم الإضافة -->
             <div class="bg-cardBg p-6 rounded-2xl border border-slate-800 shadow-xl h-fit">
                 <h3 class="text-lg font-bold mb-4 text-accentGold border-b border-slate-700 pb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-plus-circle"></i> إضافة سيارة جديدة
+                    <i class="fa-solid fa-plus-circle"></i> إضافة سيارة جديدة للسحابة
                 </h3>
                 <form id="add-car-form" class="space-y-4">
                     <div>
@@ -78,21 +78,21 @@
                         <input type="text" id="car-price" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none" placeholder="مثال: 110,000 ر.س">
                     </div>
                     <div>
-                        <label class="block text-sm text-slate-400 mb-1">روابط الصور (ضع كل رابط في سطر منفصل)</label>
-                        <textarea id="car-images" rows="3" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none text-xs" placeholder="https://image1.jpg&#10;https://image2.jpg"></textarea>
+                        <label class="block text-sm text-slate-400 mb-1">رابط الصورة الرئيسية</label>
+                        <input type="url" id="car-image" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none text-xs" placeholder="https://example.com/car.jpg">
                     </div>
                     <div>
                         <label class="block text-sm text-slate-400 mb-1">وصف مختصر</label>
                         <textarea id="car-desc" rows="2" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white focus:border-amber-500 outline-none" placeholder="المواصفات والخصائص..."></textarea>
                     </div>
-                    <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg">نشر السيارة في المعرض</button>
+                    <button type="submit" id="submit-btn" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-xl transition shadow-lg">نشر السيارة في المعرض</button>
                 </form>
             </div>
 
             <!-- قائمة الإدارة والحذف -->
             <div class="lg:col-span-2 bg-cardBg p-6 rounded-2xl border border-slate-800 shadow-xl">
                 <h3 class="text-lg font-bold mb-4 text-accentGold border-b border-slate-700 pb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-list-check"></i> قائمة سيارات المعرض (إدارة وحذف)
+                    <i class="fa-solid fa-list-check"></i> قائمة سيارات المعرض السحابية (إدارة وحذف)
                 </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-right border-collapse">
@@ -105,7 +105,7 @@
                             </tr>
                         </thead>
                         <tbody id="admin-cars-list" class="divide-y divide-slate-800 text-sm">
-                            <!-- جدول السيارات -->
+                            <tr><td colspan="4" class="text-center text-slate-500 py-6">جاري جلب السيارات من السحابة...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -118,12 +118,30 @@
         <p>جميع الحقوق محفوظة © 2026 - مجموعة معارض أهل كار</p>
     </footer>
 
-    <script>
+    <!-- سكربت جرب وإدارة Firebase Firestore -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // مفاتيح الربط السحابية الخاصة بمشروعك
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhvlqVZD9S9EwQJM3HGaN2W9es2EOtA-Q",
+            authDomain: "ahl-car-showroom-db.firebaseapp.com",
+            projectId: "ahl-car-showroom-db",
+            storageBucket: "ahl-car-showroom-db.firebasestorage.app",
+            messagingSenderId: "381597747239",
+            appId: "1:381597747239:web:5db9d994dc0f8de9ec2602",
+            measurementId: "G-5Q5WSL36YH"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         // التحقق من الجلسة الأمنية
         if (sessionStorage.getItem('admin_logged') === 'true') {
             document.getElementById('auth-modal').classList.add('hidden');
             document.getElementById('admin-content').classList.remove('hidden');
-            renderAdminTable();
+            loadAdminCars();
         }
 
         document.getElementById('login-form').addEventListener('submit', function(e) {
@@ -133,88 +151,105 @@
                 sessionStorage.setItem('admin_logged', 'true');
                 document.getElementById('auth-modal').classList.add('hidden');
                 document.getElementById('admin-content').classList.remove('hidden');
-                renderAdminTable();
+                loadAdminCars();
             } else {
                 alert('كلمة المرور غير صحيحة!');
             }
         });
 
-        function logout() {
+        window.logout = function() {
             sessionStorage.removeItem('admin_logged');
             location.reload();
         }
 
-        function getCars() {
-            return JSON.parse(localStorage.getItem('cars_db')) || [];
-        }
-
-        function saveCars(cars) {
-            localStorage.setItem('cars_db', JSON.stringify(cars));
-        }
-
-        function renderAdminTable() {
+        // جلب عرض السيارات في جدول لوحة التحكم
+        async function loadAdminCars() {
             const list = document.getElementById('admin-cars-list');
-            list.innerHTML = '';
-            const cars = getCars();
+            list.innerHTML = `<tr><td colspan="4" class="text-center text-slate-500 py-6">جاري التحديث...</td></tr>`;
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "cars"));
+                list.innerHTML = '';
 
-            if(cars.length === 0) {
-                list.innerHTML = `<tr><td colspan="4" class="text-center text-slate-500 py-6">لا توجد سيارات مضافة حالياً.</td></tr>`;
-                return;
+                if (querySnapshot.empty) {
+                    list.innerHTML = `<tr><td colspan="4" class="text-center text-slate-500 py-6">لا توجد سيارات مضافة حالياً في السحابة.</td></tr>`;
+                    return;
+                }
+
+                querySnapshot.forEach((documentSnap) => {
+                    const car = documentSnap.data();
+                    const carId = documentSnap.id;
+                    const carImage = car.image || 'https://via.placeholder.com/150';
+                    const carTypeBadge = car.type === 'new' ? 'جديدة' : 'مستعملة';
+                    const badgeClass = car.type === 'new' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-300 border border-slate-700';
+
+                    list.innerHTML += `
+                        <tr class="hover:bg-slate-900/50 transition">
+                            <td class="py-3 px-3 flex items-center gap-3">
+                                <img src="${carImage}" class="w-12 h-10 object-cover rounded-lg border border-slate-700">
+                                <span class="font-bold text-white">${car.name || 'بدون اسم'}</span>
+                            </td>
+                            <td class="py-3 px-3">
+                                <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${badgeClass}">
+                                    ${carTypeBadge}
+                                </span>
+                            </td>
+                            <td class="py-3 px-3 text-amber-400 font-bold">${car.price || 'غير محدد'}</td>
+                            <td class="py-3 px-3 text-center">
+                                <button onclick="deleteCloudCar('${carId}')" class="bg-red-600/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs transition shadow">
+                                    <i class="fa-solid fa-trash ml-1"></i> حذف
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            } catch (error) {
+                console.error("خطأ في جلب بيانات لوحة التحكم: ", error);
+                list.innerHTML = `<tr><td colspan="4" class="text-center text-red-400 py-6">حدث خطأ أثناء جلب البيانات من السحابة.</td></tr>`;
             }
-
-            cars.forEach(car => {
-                const firstImg = car.images && car.images.length > 0 ? car.images[0] : '';
-                list.innerHTML += `
-                    <tr class="hover:bg-slate-900/50 transition">
-                        <td class="py-3 px-3 flex items-center gap-3">
-                            <img src="${firstImg}" class="w-12 h-10 object-cover rounded-lg border border-slate-700">
-                            <span class="font-bold text-white">${car.name}</span>
-                        </td>
-                        <td class="py-3 px-3">
-                            <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${car.type === 'new' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-slate-300 border border-slate-700'}">
-                                ${car.type === 'new' ? 'جديدة' : 'مستعملة'}
-                            </span>
-                        </td>
-                        <td class="py-3 px-3 text-amber-400 font-bold">${car.price}</td>
-                        <td class="py-3 px-3 text-center">
-                            <button onclick="deleteCar(${car.id})" class="bg-red-600/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs transition shadow">
-                                <i class="fa-solid fa-trash ml-1"></i> حذف الإعلان
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
         }
 
-        document.getElementById('add-car-form').addEventListener('submit', function(e) {
+        // إضافة سيارة جديدة إلى Firestore
+        document.getElementById('add-car-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const cars = getCars();
-            
-            const rawImages = document.getElementById('car-images').value;
-            const imagesArray = rawImages.split('\n').map(img => img.trim()).filter(img => img.length > 0);
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'جاري النشر للسحابة...';
 
             const newCar = {
-                id: Date.now(),
                 name: document.getElementById('car-name').value,
                 type: document.getElementById('car-type').value,
                 price: document.getElementById('car-price').value,
-                images: imagesArray.length > 0 ? imagesArray : ['https://via.placeholder.com/600x400'],
-                desc: document.getElementById('car-desc').value
+                image: document.getElementById('car-image').value,
+                description: document.getElementById('car-desc').value,
+                createdAt: new Date().toISOString()
             };
 
-            cars.unshift(newCar);
-            saveCars(cars);
-            renderAdminTable();
-            this.reset();
-            alert('تم نشر السيارة بنجاح في المعرض!');
+            try {
+                await addDoc(collection(db, "cars"), newCar);
+                alert('تم نشر السيارة بنجاح في قاعدة البيانات السحابية!');
+                this.reset();
+                loadAdminCars();
+            } catch (error) {
+                console.error("خطأ في إضافة السيارة: ", error);
+                alert('حدث خطأ أثناء النشر، تأكد من الاتصال.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'نشر السيارة في المعرض';
+            }
         });
 
-        window.deleteCar = function(id) {
-            if(confirm('هل أنت متأكد من حذف هذا الإعلان نهائياً من المعرض؟')) {
-                let cars = getCars();
-                cars = cars.filter(c => c.id !== id);
-                saveCars(cars);
-                renderAdminTable();
+        // حذف سيارة من Firestore
+        window.deleteCloudCar = async function(id) {
+            if (confirm('هل أنت متأكد من حذف هذه السيارة نهائياً من السحابة؟')) {
+                try {
+                    await deleteDoc(doc(db, "cars", id));
+                    alert('تم الحذف بنجاح!');
+                    loadAdminCars();
+                } catch (error) {
+                    console.error("خطأ أثناء الحذف: ", error);
+                    alert('حدث خطأ أثناء محاولة الحذف.');
+                }
             }
         }
     </script>
