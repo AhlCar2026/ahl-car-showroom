@@ -1,69 +1,121 @@
-<!-- قسم السيارات المتحركة والمعروضة من فايربيس -->
-<section class="py-12 bg-darkBg text-white">
-    <div class="container mx-auto px-4">
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold text-accentGold mb-2">أحدث السيارات المتاحة</h2>
-            <p class="text-gray-400">تصفح أحدث موديلات السيارات المعروضة لدينا للبيع الفوري</p>
-        </div>
-
-        <!-- حاوية عرض السيارات المتحركة -->
-        <div id="cars-slider-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- سيتم تعبئة هذا القسم ديناميكياً من جافاسكريبت و فايربيس -->
-            <div class="text-center text-gray-400 py-8 col-span-3">جاري تحميل السيارات...</div>
-        </div>
-    </div>
-</section>
-
-<!-- كود جافاسكريبت لجلب وعرض السيارات من Firestore -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    // إعدادات اتصال فايربيس الخاصة بك
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        projectId: "ahl-car-showroom-db",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    async function loadCars() {
-        const container = document.getElementById('cars-slider-container');
-        try {
-            const querySnapshot = await getDocs(collection(db, "cars"));
-            if (querySnapshot.empty) {
-                container.innerHTML = '<div class="text-center text-gray-400 py-8 col-span-3">لا توجد سيارات مضافة حالياً في لوحة التحكم.</div>';
-                return;
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مجموعة معارض أهل كار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.8/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        accentGold: '#f59e0b'
+                    }
+                }
             }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-white font-sans">
 
-            let htmlContent = '';
-            querySnapshot.forEach((doc) => {
-                const car = doc.data();
-                htmlContent += `
-                    <div class="bg-cardBg rounded-xl overflow-hidden shadow-lg border border-gray-800 hover:border-accentGold transition duration-300 transform hover:-translate-y-1">
-                        <img src="${car.image || 'https://images.unsplash.com/photo-1553440569-bcc63803a83d'}" alt="${car.name || 'سيارة'}" class="w-full h-48 object-cover">
-                        <div class="p-5">
-                            <h3 class="text-xl font-bold mb-2 text-white">${car.name || 'بدون اسم'}</h3>
-                            <p class="text-gray-400 text-sm mb-4">${car.description || 'لا توجد تفاصيل متاحة حالياً.'}</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-accentGold font-bold text-lg">${car.price ? car.price + ' ريال' : 'السعر عند الطلب'}</span>
-                                <a href="wa.me/20..." class="bg-accentGold text-darkBg px-4 py-2 rounded-lg font-bold text-sm hover:opacity-90 transition">احجز الآن</a>
+    <!-- Header / Navigation -->
+    <header class="bg-cardBg border-b border-gray-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 space-x-reverse">
+                <span class="text-2xl font-bold text-accentGold"><i class="fa-solid fa-car-side ml-2"></i>أهل كار</span>
+            </div>
+            <nav class="hidden md:flex space-x-6 space-x-reverse text-gray-300">
+                <a href="index.html" class="text-accentGold font-bold">الرئيسية</a>
+                <a href="new-cars.html" class="hover:text-accentGold transition">السيارات الجديدة</a>
+                <a href="used-cars.html" class="hover:text-accentGold transition">السيارات المستعملة</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 text-center bg-gradient-to-b from-cardBg to-darkBg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-white">مرحباً بك في <span class="text-accentGold">مجموعة معارض أهل كار</span></h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-8">وجهتك الأولى لاختيار وتصفح أحدث وأرقى سيارات المعرض بكل سهولة ويسر.</p>
+        </div>
+    </section>
+
+    <!-- قسم السيارات المتحركة والمعروضة من فايربيس -->
+    <section class="py-12 bg-darkBg text-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-accentGold mb-2">أحدث السيارات المتاحة</h2>
+                <p class="text-gray-400">تصفح أحدث موديلات السيارات المعروضة لدينا للبيع الفوري</p>
+            </div>
+
+            <!-- حاوية عرض السيارات المتحركة -->
+            <div id="cars-slider-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- سيتم تعبئة هذا القسم ديناميكياً من جافاسكريبت و فايربيس -->
+                <div class="text-center text-gray-400 py-8 col-span-3">جاري تحميل السيارات...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-cardBg border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
+        <p>جميع حقوق الطبع والنشر محفوظة © 2026 مجموعة معارض أهل كار</p>
+    </footer>
+
+    <!-- كود جافاسكريبت لجلب وعرض السيارات من Firestore -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForShowroom...",
+            authDomain: "ahl-car-showroom-db.firebaseapp.com",
+            projectId: "ahl-car-showroom-db",
+            storageBucket: "ahl-car-showroom-db.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123:web:abc"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadCars() {
+            const container = document.getElementById('cars-slider-container');
+            try {
+                const querySnapshot = await getDocs(collection(db, "cars"));
+                if (querySnapshot.empty) {
+                    container.innerHTML = '<div class="text-center text-gray-400 py-8 col-span-3">لا توجد سيارات مضافة حالياً في لوحة التحكم.</div>';
+                    return;
+                }
+
+                let htmlContent = '';
+                querySnapshot.forEach((doc) => {
+                    const car = doc.data();
+                    htmlContent += `
+                        <div class="bg-cardBg rounded-xl overflow-hidden shadow-lg border border-gray-800 hover:border-accentGold transition duration-300 transform hover:-translate-y-1">
+                            <img src="${car.image || 'https://images.unsplash.com/photo-1553440569-bcc63803a83d'}" alt="${car.name || 'سيارة'}" class="w-full h-48 object-cover">
+                            <div class="p-5">
+                                <h3 class="text-xl font-bold mb-2 text-white">${car.name || 'بدون اسم'}</h3>
+                                <p class="text-gray-400 text-sm mb-4">${car.description || 'لا توجد تفاصيل متاحة حالياً.'}</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-accentGold font-bold text-lg">${car.price ? car.price + ' ريال' : 'السعر عند الطلب'}</span>
+                                    <a href="https://wa.me/" target="_blank" class="bg-accentGold text-darkBg px-4 py-2 rounded-lg font-bold text-sm hover:opacity-90 transition">احجز الآن</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = htmlContent;
-        } catch (error) {
-            console.error("خطأ في جلب السيارات:", error);
-            container.innerHTML = '<div class="text-center text-red-400 py-8 col-span-3">حدث خطأ أثناء تحميل السيارات.</div>';
+                    `;
+                });
+                container.innerHTML = htmlContent;
+            } catch (error) {
+                console.error("خطأ في جلب السيارات:", error);
+                container.innerHTML = '<div class="text-center text-red-400 py-8 col-span-3">حدث خطأ أثناء تحميل السيارات.</div>';
+            }
         }
-    }
 
-    loadCars();
-</script>
+        loadCars();
+    </script>
+</body>
+</html>
