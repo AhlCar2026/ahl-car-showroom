@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مجموعة معارض أهل كار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        accentGold: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- الهيدر والتنقل -->
+    <header class="bg-cardBg border-b border-slate-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-wider text-accentGold flex items-center gap-2">
+                <i class="fa-solid fa-car-side"></i> مجموعة معارض أهل كار
+            </h1>
+            <nav class="space-x-6 space-x-reverse hidden md:flex font-medium">
+                <a href="index.html" class="text-accentGold transition">الرئيسية</a>
+                <a href="new-cars.html" class="hover:text-accentGold transition">عربيات جديدة</a>
+                <a href="used-cars.html" class="hover:text-accentGold transition">عربيات مستعملة</a>
+                <a href="admin.html" class="text-slate-400 hover:text-white transition text-sm border border-slate-700 px-3 py-1.5 rounded-lg bg-slate-900"><i class="fa-solid fa-lock ml-1 text-xs"></i> لوحة التحكم</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-12 flex-1">
+        
+        <!-- البانر الرئيسي -->
+        <section class="text-center py-16 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl border border-slate-800 p-8 shadow-2xl relative overflow-hidden mb-12">
+            <div class="absolute -right-20 -top-20 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-white leading-tight">عربيات جديدة وعربيات مستعملة</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-8 text-lg">وجهتك الأولى لاختيار أحدث السيارات الفاخرة والمستعملة بحالة الوكالة مع ضمان الجودة وسهولة الشراء والتواصل الفوري.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="new-cars.html" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-3.5 rounded-xl transition shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-star"></i> تصفح العربيات الجديدة
+                </a>
+                <a href="used-cars.html" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-left"></i> تصفح العربيات المستعملة
+                </a>
+            </div>
+        </section>
+
+        <!-- ميزات المجموعة -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-cardBg p-6 rounded-2xl border border-slate-800 text-center">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">سيارات مفحوصة ومضمونة</h3>
+                <p class="text-slate-400 text-sm">جميع السيارات تخضع لفحص شامل ودقيق قبل عرضها للبيع.</p>
+            </div>
+            <div class="bg-cardBg p-6 rounded-2xl border border-slate-800 text-center">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">تحديثات لحظية</h3>
+                <p class="text-slate-400 text-sm">إدارة كاملة ومتابعة مستمرة للأسعار والعروض عبر لوحة تحكم خاصة.</p>
+            </div>
+            <div class="bg-cardBg p-6 rounded-2xl border border-slate-800 text-center">
+                <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+                <h3 class="font-bold text-lg mb-2">تواصل مباشر وسريع</h3>
+                <p class="text-slate-400 text-sm">احجز سيارتك وتواصل معنا فوراً عبر واتساب بنقرة زر واحدة.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- الفوتر -->
+    <footer class="bg-cardBg border-t border-slate-800 py-6 text-center text-slate-500 text-sm">
+        <p>جميع الحقوق محفوظة © 2026 - مجموعة معارض أهل كار</p>
+    </footer>
+
+</body>
+</html>
