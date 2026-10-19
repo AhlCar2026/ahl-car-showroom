@@ -37,13 +37,17 @@
     <main class="container mx-auto px-4 py-10 flex-1">
         <div class="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
             <h2 class="text-3xl font-extrabold text-accentGold flex items-center gap-2">
-                <i class="fa-solid fa-star"></i> العربيات الجديدة
+                <i class="fa-solid fa-star"></i> العربيات الجديدة (السحابية)
             </h2>
-            <span id="cars-count" class="bg-slate-800 text-slate-300 text-sm px-3 py-1 rounded-full border border-slate-700">0 سيارات متوفرة</span>
+            <span id="cars-count" class="bg-slate-800 text-slate-300 text-sm px-3 py-1 rounded-full border border-slate-700">جاري التحديث...</span>
         </div>
 
         <div id="cars-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- يتم تعبئة السيارات هنا ديناميكياً مع سلايدر الصور -->
+            <!-- حالة التحميل -->
+            <div class="col-span-full text-center py-16 text-slate-400">
+                <i class="fa-solid fa-spinner fa-spin text-amber-500 text-3xl mb-3"></i>
+                <p>جاري تحميل العربيات الجديدة من السحابة...</p>
+            </div>
         </div>
     </main>
 
@@ -51,128 +55,133 @@
         <p>جميع الحقوق محفوظة © 2026 - مجموعة معارض أهل كار</p>
     </footer>
 
-    <script>
-        const defaultNewCars = [
-            {
-                id: 101,
-                name: 'مرسيدس S-Class 2026 الفاخرة',
-                type: 'new',
-                price: '480,000 ر.س',
-                desc: 'وارد الوكالة، اضاءات محيطية متقدمة، فتحة سقف بانوراما.',
-                images: [
-                    'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=600&q=80',
-                    'https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=600&q=80',
-                    'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=600&q=80'
-                ]
-            },
-            {
-                id: 102,
-                name: 'تويوتا لاندكروزر VMX 2026',
-                type: 'new',
-                price: '310,000 ر.س',
-                desc: 'فل كامل، نظام تعليق متكيف، مقاعد جلد فاخرة.',
-                images: [
-                    'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=600&q=80',
-                    'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=600&q=80'
-                ]
-            }
-        ];
+    <!-- سكربت جلب وعرض السيارات الجديدة من Firestore -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // مصفوفة عامة لتتبع مؤشر الصورة لكل سيارة
+        // مفاتيح الربط السحابية الخاصة بمشروعك
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhvlqVZD9S9EwQJM3HGaN2W9es2EOtA-Q",
+            authDomain: "ahl-car-showroom-db.firebaseapp.com",
+            projectId: "ahl-car-showroom-db",
+            storageBucket: "ahl-car-showroom-db.firebasestorage.app",
+            messagingSenderId: "381597747239",
+            appId: "1:381597747239:web:5db9d994dc0f8de9ec2602",
+            measurementId: "G-5Q5WSL36YH"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         window.currentImageIndexes = {};
+        window.carsDataStore = {};
 
-        function getCars() {
-            const stored = localStorage.getItem('cars_db');
-            if (!stored) {
-                localStorage.setItem('cars_db', JSON.stringify([...defaultNewCars, ...getDefaultUsedCars()]));
-                return defaultNewCars;
-            }
-            const allCars = JSON.parse(stored);
-            return allCars.filter(c => c.type === 'new');
-        }
-
-        function getDefaultUsedCars() {
-            return [
-                {
-                    id: 201,
-                    name: 'لكزس ES 350 موديل 2023',
-                    type: 'used',
-                    price: '145,000 ر.س',
-                    desc: 'بحالة الوكالة، عداد قليل جداً، صيانة منظمة بالوكالة.',
-                    images: [
-                        'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=600&q=80'
-                    ]
-                }
-            ];
-        }
-
-        function renderNewCars() {
+        async function loadNewCars() {
             const grid = document.getElementById('cars-grid');
-            const cars = getCars();
-            document.getElementById('cars-count').innerText = `${cars.length} سيارات متوفرة`;
+            const countBadge = document.getElementById('cars-count');
             
-            grid.innerHTML = '';
-            if (cars.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-slate-500 py-12">لا توجد عربيات جديدة مضافة حالياً.</p>`;
-                return;
-            }
+            try {
+                const querySnapshot = await getDocs(collection(db, "cars"));
+                const cars = [];
+                
+                querySnapshot.forEach((docSnap) => {
+                    const car = docSnap.data();
+                    car.firestoreId = docSnap.id;
+                    // تصفية السيارات الجديدة فقط
+                    if (car.type === 'new') {
+                        cars.push(car);
+                    }
+                });
 
-            cars.forEach(car => {
-                if (window.currentImageIndexes[car.id] === undefined) {
-                    window.currentImageIndexes[car.id] = 0;
+                countBadge.innerText = `${cars.length} سيارات متوفرة`;
+                grid.innerHTML = '';
+
+                if (cars.length === 0) {
+                    grid.innerHTML = `<p class="col-span-full text-center text-slate-500 py-12">لا توجد عربيات جديدة مضافة حالياً في السحابة.</p>`;
+                    return;
                 }
-                const imgIdx = window.currentImageIndexes[car.id];
-                const currentImg = car.images && car.images.length > 0 ? car.images[imgIdx] : 'https://via.placeholder.com/600x400';
 
-                grid.innerHTML += `
-                    <div class="bg-cardBg rounded-2xl overflow-hidden border border-slate-800 shadow-xl flex flex-col justify-between group hover:border-amber-500/50 transition">
-                        <!-- منطقة سلايدر الصور -->
-                        <div class="relative h-56 bg-slate-900 overflow-hidden">
-                            <img src="${currentImg}" alt="${car.name}" class="w-full h-full object-cover transition duration-300">
-                            ${car.images && car.images.length > 1 ? `
-                                <button onclick="changeImage(${car.id}, -1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm">
-                                    <i class="fa-solid fa-chevron-right text-xs"></i>
-                                </button>
-                                <button onclick="changeImage(${car.id}, 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm">
-                                    <i class="fa-solid fa-chevron-left text-xs"></i>
-                                </button>
-                                <span class="absolute bottom-2 left-2 bg-black/70 text-xs px-2.5 py-1 rounded-md text-amber-400 font-bold backdrop-blur-sm">
-                                    ${imgIdx + 1} /${car.images.length}
-                                </span>
-                            ` : ''}
-                        </div>
-                        <div class="p-6 flex-1 flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold mb-2 text-white">${car.name}</h3>
-                                <p class="text-slate-400 text-sm mb-4 leading-relaxed">${car.desc || ''}</p>
-                            </div>
-                            <div>
-                                <div class="text-amber-400 font-extrabold text-xl mb-4">${car.price}</div>
-                                <a href="https://wa.me/966500000000?text=أهلاً، أرغب في الاستفسار عن السيارة الجديدة: ${encodeURIComponent(car.name)}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
-                                    <i class="fa-brands fa-whatsapp text-lg"></i> احجز أو استفسر عبر واتساب
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-        }
+                cars.forEach(car => {
+                    const carKey = car.firestoreId;
+                    window.carsDataStore[carKey] = car;
 
-        window.changeImage = function(carId, direction) {
-            const allCars = JSON.parse(localStorage.getItem('cars_db')) || [];
-            const car = allCars.find(c => c.id === carId);
-            if (car && car.images && car.images.length > 0) {
-                let current = window.currentImageIndexes[carId] || 0;
-                current += direction;
-                if (current < 0) current = car.images.length - 1;
-                if (current >= car.images.length) current = 0;
-                window.currentImageIndexes[carId] = current;
-                renderNewCars();
+                    if (window.currentImageIndexes[carKey] === undefined) {
+                        window.currentImageIndexes[carKey] = 0;
+                    }
+
+                    // معالجة الصور (سواء كانت مصفوفة أو نص رابط مفرد)
+                    let imagesArray = [];
+                    if (Array.isArray(car.images)) {
+                        imagesArray = car.images;
+                    } else if (car.image) {
+                        imagesArray = [car.image];
+                    } else {
+                        imagesArray = ['https://via.placeholder.com/600x400'];
+                    }
+
+                    const imgIdx = window.currentImageIndexes[carKey];
+                    const currentImg = imagesArray[imgIdx] || imagesArray[0];
+
+                    grid.innerHTML += `
+                        <div class="bg-cardBg rounded-2xl overflow-hidden border border-slate-800 shadow-xl flex flex-col justify-between group hover:border-amber-500/50 transition">
+                            <!-- منطقة سلايدر الصور -->
+                            <div class="relative h-56 bg-slate-900 overflow-hidden">
+                                <img src="${currentImg}" alt="${car.name}" class="w-full h-full object-cover transition duration-300">
+                                ${imagesArray.length > 1 ? `
+                                    <button onclick="changeImage('${carKey}', -1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm shadow">
+                                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                                    </button>
+                                    <button onclick="changeImage('${carKey}', 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm shadow">
+                                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                                    </button>
+                                    <span class="absolute bottom-2 left-2 bg-black/70 text-xs px-2.5 py-1 rounded-md text-amber-400 font-bold backdrop-blur-sm">
+                                        ${imgIdx + 1} /${imagesArray.length}
+                                    </span>
+                                ` : ''}
+                            </div>
+                            <div class="p-6 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2 text-white">${car.name || 'سيارة جديدة'}</h3>
+                                    <p class="text-slate-400 text-sm mb-4 leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية.'}</p>
+                                </div>
+                                <div>
+                                    <div class="text-amber-400 font-extrabold text-xl mb-4">${car.price || 'السعر عند الاتصال'}</div>
+                                    <a href="https://wa.me/?text=${encodeURIComponent('أهلاً، أرغب في الاستفسار عن السيارة الجديدة: ' + (car.name || ''))}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                                        <i class="fa-brands fa-whatsapp text-lg"></i> احجز أو استفسر عبر واتساب
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+            } catch (error) {
+                console.error("خطأ في جلب السيارات الجديدة: ", error);
+                grid.innerHTML = `<p class="col-span-full text-center text-red-400 py-12">حدث خطأ أثناء الاتصال بقاعدة البيانات السحابية.</p>`;
             }
         }
 
-        renderNewCars();
+        window.changeImage = function(carKey, direction) {
+            const car = window.carsDataStore[carKey];
+            if (!car) return;
+            
+            let imagesArray = [];
+            if (Array.isArray(car.images)) imagesArray = car.images;
+            else if (car.image) imagesArray = [car.image];
+            else imagesArray = ['https://via.placeholder.com/600x400'];
+
+            if (imagesArray.length > 1) {
+                let current = window.currentImageIndexes[carKey] || 0;
+                current += direction;
+                if (current < 0) current = imagesArray.length - 1;
+                if (current >= imagesArray.length) current = 0;
+                window.currentImageIndexes[carKey] = current;
+                loadNewCars();
+            }
+        }
+
+        loadNewCars();
     </script>
 </body>
 </html>
