@@ -22,7 +22,7 @@
 </head>
 <body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- الهيدر والتنقل -->
+    <!-- الهيدر والتنقل (بدون زر لوحة التحكم نهائياً) -->
     <header class="bg-cardBg border-b border-slate-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-black tracking-wider text-accentGold flex items-center gap-2">
@@ -32,7 +32,6 @@
                 <a href="index.html" class="text-accentGold transition">الرئيسية</a>
                 <a href="new-cars.html" class="hover:text-accentGold transition">عربيات جديدة</a>
                 <a href="used-cars.html" class="hover:text-accentGold transition">عربيات مستعملة</a>
-                <a href="admin.html" class="text-slate-400 hover:text-white transition text-sm border border-slate-700 px-3 py-1.5 rounded-lg bg-slate-900"><i class="fa-solid fa-lock ml-1 text-xs"></i> لوحة التحكم</a>
             </nav>
         </div>
     </header>
@@ -69,7 +68,7 @@
                     <i class="fa-solid fa-bolt"></i>
                 </div>
                 <h3 class="font-bold text-lg mb-2">تحديثات لحظية</h3>
-                <p class="text-slate-400 text-sm">إدارة كاملة ومتابعة مستمرة للأسعار والعروض عبر لوحة تحكم خاصة.</p>
+                <p class="text-slate-400 text-sm">إدارة كاملة ومتابعة مستمرة للأسعار والعروض بشكل سحابي متطور.</p>
             </div>
             <div class="bg-cardBg p-6 rounded-2xl border border-slate-800 text-center">
                 <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl">
@@ -80,20 +79,20 @@
             </div>
         </div>
 
-        <!-- قسم عرض السيارات المضافة (متحرك وديناميكي) -->
+        <!-- قسم عرض أحدث السيارات المتحرك والتفاعلي -->
         <section class="mb-12">
             <div class="flex justify-between items-center mb-8">
                 <h3 class="text-2xl font-black text-white flex items-center gap-2">
-                    <i class="fa-solid fa-fire text-amber-500"></i> أحدث السيارات المضافة
+                    <i class="fa-solid fa-fire text-amber-500"></i> أحدث السيارات المضافة في المعرض
                 </h3>
             </div>
             
-            <!-- حاوية عرض السيارات -->
-            <div id="dynamic-cars-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- حالة التحميل الافتراضية -->
-                <div class="col-span-full text-center py-12 bg-cardBg rounded-2xl border border-slate-800 text-slate-400">
-                    <i class="fa-solid fa-spinner fa-spin text-amber-500 text-2xl mb-3"></i>
-                    <p>جاري تحميل السيارات المتاحة من قاعدة البيانات...</p>
+            <!-- حاوية عرض السيارات السحابية -->
+            <div id="dynamic-cars-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- حالة التحميل -->
+                <div class="col-span-full text-center py-16 bg-cardBg rounded-2xl border border-slate-800 text-slate-400">
+                    <i class="fa-solid fa-spinner fa-spin text-amber-500 text-3xl mb-3"></i>
+                    <p>جاري تحميل أحدث السيارات المتاحة من السحابة...</p>
                 </div>
             </div>
         </section>
@@ -105,12 +104,11 @@
         <p>جميع الحقوق محفوظة © 2026 - مجموعة معارض أهل كار</p>
     </footer>
 
-    <!-- سكربت ربط جلب وعرض السيارات من Firebase Firestore -->
+    <!-- سكربت جلب وعرض السيارات من Firebase Firestore -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // مفاتيح الربط السحابية الخاصة بمشروعك
         const firebaseConfig = {
             apiKey: "AIzaSyAhvlqVZD9S9EwQJM3HGaN2W9es2EOtA-Q",
             authDomain: "ahl-car-showroom-db.firebaseapp.com",
@@ -121,11 +119,9 @@
             measurementId: "G-5Q5WSL36YH"
         };
 
-        // تهيئة Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // جلب السيارات وعرضها بتصميم متحرك وعصري
         async function fetchAndDisplayCars() {
             const container = document.getElementById('dynamic-cars-container');
             try {
@@ -133,35 +129,38 @@
                 
                 if (querySnapshot.empty) {
                     container.innerHTML = `
-                        <div class="col-span-full text-center py-12 bg-cardBg rounded-2xl border border-slate-800 text-slate-400">
-                            <i class="fa-solid fa-car text-3xl mb-3 text-slate-600"></i>
-                            <p>لا توجد سيارات مضافة حالياً في قاعدة البيانات. قم بإضافة سيارات جديدة من لوحة التحكم!</p>
+                        <div class="col-span-full text-center py-16 bg-cardBg rounded-2xl border border-slate-800 text-slate-400">
+                            <i class="fa-solid fa-car text-4xl mb-3 text-slate-600"></i>
+                            <p class="text-lg">لا توجد سيارات مضافة حالياً. ترقبوا أحدث الإصدارات قريباً!</p>
                         </div>
                     `;
                     return;
                 }
 
-                container.innerHTML = ""; // تفريغ الحاوية
-                querySnapshot.forEach((doc) => {
-                    const car = doc.data();
-                    
-                    // بطاقة سيارة بتصميم متفاعل وحركة انسيابية (Hover Effect)
+                container.innerHTML = ""; 
+                querySnapshot.forEach((docSnap) => {
+                    const car = docSnap.data();
+                    const carImage = car.image || car.images?.[0] || 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80';
+                    const carTypeBadge = car.type === 'new' ? 'جديدة' : 'مستعملة';
+                    const badgeClass = car.type === 'new' ? 'bg-amber-500 text-slate-950' : 'bg-slate-700 text-white';
+
+                    // بطاقة سيارة بتصميم عصري وحركة تفاعلية انسيابية (Hover Effect)
                     const carCard = `
-                        <div class="bg-cardBg rounded-2xl border border-slate-800 overflow-hidden shadow-xl transform transition duration-300 hover:-translate-y-2 hover:shadow-2xl hover:border-amber-500/50 flex flex-col">
-                            <div class="relative h-52 overflow-hidden bg-slate-900">
-                                <img src="${car.image || 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80'}" alt="${car.name || 'سيارة'}" class="w-full h-full object-cover transition duration-500 hover:scale-110">
-                                <span class="absolute top-3 right-3 bg-amber-500 text-slate-950 font-bold text-xs px-3 py-1 rounded-full shadow">
-                                    ${car.status || 'متاح'}
+                        <div class="bg-cardBg rounded-2xl border border-slate-800 overflow-hidden shadow-2xl transform transition duration-300 hover:-translate-y-2 hover:shadow-amber-500/10 hover:border-amber-500/50 flex flex-col justify-between group">
+                            <div class="relative h-60 overflow-hidden bg-slate-900">
+                                <img src="${carImage}" alt="${car.name || 'سيارة'}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+                                <span class="absolute top-3 right-3 ${badgeClass} font-bold text-xs px-3 py-1.5 rounded-full shadow-lg">
+                                    ${carTypeBadge}
                                 </span>
                             </div>
-                            <div class="p-5 flex-1 flex flex-col justify-between">
+                            <div class="p-6 flex-1 flex flex-col justify-between">
                                 <div>
-                                    <h4 class="text-xl font-bold text-white mb-2">${car.name || 'اسم السيارة'}</h4>
-                                    <p class="text-amber-400 font-extrabold text-lg mb-3">${car.price ? car.price + ' ريال' : 'السعر عند الاتصال'}</p>
-                                    <p class="text-slate-400 text-sm mb-4 line-clamp-2">${car.description || 'لا توجد تفاصيل إضافية متاحة حالياً لهذه السيارة.'}</p>
+                                    <h4 class="text-xl font-bold text-white mb-2">${car.name || 'سيارة مميزة'}</h4>
+                                    <p class="text-amber-400 font-extrabold text-xl mb-3">${car.price || 'السعر عند الاتصال'}</p>
+                                    <p class="text-slate-400 text-sm mb-6 line-clamp-2">${car.description || car.desc || 'لا توجد تفاصيل إضافية متاحة حالياً.'}</p>
                                 </div>
-                                <a href="https://wa.me/?text=${encodeURIComponent('أهلاً، أنا مهتم بالسيارة: ' + (car.name || ''))}" target="_blank" class="w-full bg-slate-800 hover:bg-emerald-600 text-white font-semibold py-2.5 rounded-xl transition text-center flex items-center justify-center gap-2 text-sm border border-slate-700 hover:border-emerald-500">
-                                    <i class="fa-brands fa-whatsapp text-emerald-400"></i> استفسر عبر واتساب
+                                <a href="https://wa.me/?text=${encodeURIComponent('أهلاً، أنا مهتم بالسيارة: ' + (car.name || ''))}" target="_blank" class="w-full bg-slate-800 hover:bg-emerald-600 text-white font-semibold py-3 rounded-xl transition text-center flex items-center justify-center gap-2 text-sm border border-slate-700 hover:border-emerald-500 shadow">
+                                    <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i> استفسر عبر واتساب
                                 </a>
                             </div>
                         </div>
@@ -172,15 +171,14 @@
             } catch (error) {
                 console.error("خطأ في جلب بيانات السيارات: ", error);
                 container.innerHTML = `
-                    <div class="col-span-full text-center py-12 bg-cardBg rounded-2xl border border-slate-800 text-red-400">
-                        <i class="fa-solid fa-triangle-exclamation text-2xl mb-3"></i>
-                        <p>حدث خطأ أثناء تحميل السيارات من قاعدة البيانات. يجدر التحقق من الاتصال.</p>
+                    <div class="col-span-full text-center py-16 bg-cardBg rounded-2xl border border-slate-800 text-red-400">
+                        <i class="fa-solid fa-triangle-exclamation text-3xl mb-3"></i>
+                        <p>حدث خطأ أثناء تحميل السيارات من السحابة. يرجى التحقق لاحقاً.</p>
                     </div>
                 `;
             }
         }
 
-        // تنفيذ الدالة عند تحميل الصفحة
         fetchAndDisplayCars();
     </script>
 </body>
