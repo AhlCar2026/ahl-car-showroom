@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>العربيات المستعملة - مجموعة معارض أهل كار</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        accentGold: '#f59e0b'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
+
+    <header class="bg-cardBg border-b border-slate-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-accentGold">مجموعة معارض أهل كار</h1>
+            <nav class="space-x-6 space-x-reverse hidden md:flex font-medium">
+                <a href="index.html" class="hover:text-accentGold transition">الرئيسية</a>
+                <a href="new-cars.html" class="hover:text-accentGold transition">عربيات جديدة</a>
+                <a href="used-cars.html" class="text-accentGold transition">عربيات مستعملة</a>
+                <a href="admin.html" class="text-slate-400 hover:text-white transition text-sm border border-slate-700 px-3 py-1 rounded">لوحة التحكم</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-10 flex-1">
+        <div class="flex justify-between items-center mb-8 border-b border-slate-800 pb-4">
+            <h2 class="text-3xl font-extrabold text-accentGold flex items-center gap-2">
+                <i class="fa-solid fa-rotate-left"></i> العربيات المستعملة
+            </h2>
+            <span id="cars-count" class="bg-slate-800 text-slate-300 text-sm px-3 py-1 rounded-full border border-slate-700">0 سيارات متوفرة</span>
+        </div>
+
+        <div id="cars-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- يتم تعبئة السيارات المستعملة هنا ديناميكياً مع سلايدر الصور -->
+        </div>
+    </main>
+
+    <footer class="bg-cardBg border-t border-slate-800 py-6 text-center text-slate-500 text-sm">
+        <p>جميع الحقوق محفوظة © 2026 - مجموعة معارض أهل كار</p>
+    </footer>
+
+    <script>
+        window.currentImageIndexes = {};
+
+        function getUsedCars() {
+            const stored = localStorage.getItem('cars_db');
+            if (!stored) return [];
+            const allCars = JSON.parse(stored);
+            return allCars.filter(c => c.type === 'used');
+        }
+
+        function renderUsedCars() {
+            const grid = document.getElementById('cars-grid');
+            const cars = getUsedCars();
+            document.getElementById('cars-count').innerText = `${cars.length} سيارات متوفرة`;
+            
+            grid.innerHTML = '';
+            if (cars.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center text-slate-500 py-12">لا توجد عربيات مستعملة مضافة حالياً.</p>`;
+                return;
+            }
+
+            cars.forEach(car => {
+                if (window.currentImageIndexes[car.id] === undefined) {
+                    window.currentImageIndexes[car.id] = 0;
+                }
+                const imgIdx = window.currentImageIndexes[car.id];
+                const currentImg = car.images && car.images.length > 0 ? car.images[imgIdx] : 'https://via.placeholder.com/600x400';
+
+                grid.innerHTML += `
+                    <div class="bg-cardBg rounded-2xl overflow-hidden border border-slate-800 shadow-xl flex flex-col justify-between group hover:border-amber-500/50 transition">
+                        <!-- منطقة سلايدر الصور -->
+                        <div class="relative h-56 bg-slate-900 overflow-hidden">
+                            <img src="${currentImg}" alt="${car.name}" class="w-full h-full object-cover transition duration-300">
+                            ${car.images && car.images.length > 1 ? `
+                                <button onclick="changeImage(${car.id}, -1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm">
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+                                <button onclick="changeImage(${car.id}, 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm">
+                                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                                </button>
+                                <span class="absolute bottom-2 left-2 bg-black/70 text-xs px-2.5 py-1 rounded-md text-amber-400 font-bold backdrop-blur-sm">
+                                    ${imgIdx + 1} /${car.images.length}
+                                </span>
+                            ` : ''}
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold mb-2 text-white">${car.name}</h3>
+                                <p class="text-slate-400 text-sm mb-4 leading-relaxed">${car.desc || ''}</p>
+                            </div>
+                            <div>
+                                <div class="text-amber-400 font-extrabold text-xl mb-4">${car.price}</div>
+                                <a href="https://wa.me/966500000000?text=أهلاً، أرغب في الاستفسار عن السيارة المستعملة: ${encodeURIComponent(car.name)}" target="_blank" class="block text-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i> استفسر عبر واتساب
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.changeImage = function(carId, direction) {
+            const allCars = JSON.parse(localStorage.getItem('cars_db')) || [];
+            const car = allCars.find(c => c.id === carId);
+            if (car && car.images && car.images.length > 0) {
+                let current = window.currentImageIndexes[carId] || 0;
+                current += direction;
+                if (current < 0) current = car.images.length - 1;
+                if (current >= car.images.length) current = 0;
+                window.currentImageIndexes[carId] = current;
+                renderUsedCars();
+            }
+        }
+
+        renderUsedCars();
+    </script>
+</body>
+</html>
