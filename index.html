@@ -6,7 +6,6 @@
     <title>مجموعة معارض أهل كار</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.8/css/all.min.css">
-    <!-- مكتبة Swiper للتحريك الاحترافي للعروض -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script>
         tailwind.config = {
@@ -28,7 +27,7 @@
 <body class="bg-darkBg text-white font-sans antialiased overflow-x-hidden">
 
     <!-- Header / Navigation -->
-    <header class="bg-cardBg border-b border-gray-800 sticky top-0 z-50">
+    <header class="bg-cardBg/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
                 <a href="index.html" class="text-2xl font-bold text-accentGold flex items-center gap-2">
@@ -36,85 +35,125 @@
                 </a>
             </div>
             <nav class="hidden md:flex space-x-6 space-x-reverse text-gray-300 font-medium">
-                <a href="index.html" class="text-accentGold">الرئيسية</a>
+                <a href="index.html" class="text-accentGold font-bold">الرئيسية</a>
                 <a href="new-cars.html" class="hover:text-accentGold transition">السيارات الجديدة</a>
                 <a href="used-cars.html" class="hover:text-accentGold transition">السيارات المستعملة</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="py-16 md:py-24 text-center bg-gradient-to-b from-cardBg to-darkBg px-4">
-        <div class="container mx-auto max-w-4xl">
+    <!-- Hero Section with Background Slider (مطابق للفيديو الفاخر) -->
+    <section class="relative py-24 md:py-32 text-center bg-cardBg overflow-hidden border-b border-gray-800">
+        <div class="absolute inset-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738" alt="Luxury Car" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-darkBg/60 via-darkBg/80 to-darkBg"></div>
+        </div>
+        <div class="container mx-auto max-w-4xl relative z-10 px-4">
+            <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase inline-block mb-4">اكتشف عالم السيارات الفاخرة</span>
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-white leading-tight">
-                مرحباً بك في <span class="text-accentGold">مجموعة معارض أهل كار</span>
+                اكتشف عالم السيارات الفاخرة
             </h1>
-            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8">
-                وجهتك الأولى لاختيار وتصفح أحدث وأرقى السيارات بكل سهولة ويسر مع خدمة حجز فورية.
+            <p class="text-gray-300 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
+                وجهتك الأولى في العالم لاختيار السيارات الفاخرة والأنيقة، نقدم لك تشكيلة واسعة ومتجددة من أحدث الماركات العالمية بأسعار تنافسية وخدمة VIP.
             </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="used-cars.html" class="bg-accentGold text-darkBg font-bold px-8 py-3.5 rounded-xl hover:opacity-90 transition shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-car"></i>استعرض السيارات
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- قسم العروض المتحركة للسيارات (Slider) -->
+    <!-- تصنيفات السيارات السريعة -->
+    <section class="py-12 bg-darkBg px-4">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-accentGold mb-2">تصنيفات السيارات</h2>
+                <p class="text-gray-400 text-sm">اختر التصنيف المناسب لاستعراض المجموعة المتاحة</p>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
+                    <i class="fa-solid fa-car-burst text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
+                    <h3 class="font-bold text-sm">جديد</h3>
+                </a>
+                <a href="used-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
+                    <i class="fa-solid fa-car-rear text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
+                    <h3 class="font-bold text-sm">مستعمل</h3>
+                </a>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
+                    <i class="fa-solid fa-gauge-high text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
+                    <h3 class="font-bold text-sm">رياضية</h3>
+                </a>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
+                    <i class="fa-solid fa-truck-monster text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
+                    <h3 class="font-bold text-sm">دفع رباعي</h3>
+                </a>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
+                    <i class="fa-solid fa-gem text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
+                    <h3 class="font-bold text-sm">فاخرة</h3>
+                </a>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
+                    <i class="fa-solid fa-bolt text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
+                    <h3 class="font-bold text-sm">كهربائية</h3>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- معرض السيارات المتحرك (Slider) -->
     <section class="py-12 px-4 bg-darkBg">
         <div class="container mx-auto max-w-7xl">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-accentGold mb-3">عروض السيارات المتحركة</h2>
-                <p class="text-gray-400">تصفح أحدث موديلات السيارات المعروضة للبيع الفوري وتواصل معنا مباشرة</p>
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-accentGold mb-2">معرض السيارات</h2>
+                <p class="text-gray-400 text-sm">أحدث وأجمل سيارات المعرض المتاحة للبيع الفوري</p>
             </div>
 
-            <!-- Swiper Container -->
             <div class="swiper myCarSlider pb-12">
                 <div id="cars-slider-wrapper" class="swiper-wrapper">
-                    <!-- سيتم تعبئة السيارات هنا ديناميكياً -->
-                    <div class="swiper-slide text-center text-gray-400 py-12">جاري تحميل عروض السيارات...</div>
+                    <div class="swiper-slide text-center text-gray-400 py-12">جاري تحميل السيارات...</div>
                 </div>
-                <!-- أزرار التنقل والترقيم -->
                 <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
 
-    <!-- Modal نافذة طلب الشراء والتفاصيل -->
-    <div id="orderModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
-        <div class="bg-cardBg border border-gray-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
-            <button onclick="closeOrderModal()" class="absolute top-4 left-4 text-gray-400 hover:text-white text-xl">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <h3 class="text-2xl font-bold text-accentGold mb-2">طلب شراء / استفسار عن سيارة</h3>
-            <p id="modalCarTitle" class="text-gray-400 text-sm mb-6"></p>
-            
-            <form id="orderForm" onsubmit="submitOrder(event)" class="space-y-4">
-                <input type="hidden" id="carTitleInput">
-                <div>
-                    <label class="block text-gray-300 text-sm mb-1">الاسم الكريم</label>
-                    <input type="text" id="clientName" required class="w-full bg-darkBg border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="اكتب اسمك الكامل">
+    <!-- لماذا تكون السيارات / مميزاتنا -->
+    <section class="py-12 bg-cardBg/50 border-t border-b border-gray-800 px-4">
+        <div class="container mx-auto max-w-7xl">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-accentGold mb-2">لماذا تكون السيارات ؟</h2>
+                <p class="text-gray-400 text-sm">التميز في خدمة العملاء واختيار السيارات الفاخرة</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center">
+                    <i class="fa-solid fa-handshake text-4xl text-accentGold mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">استبدال سهل</h3>
+                    <p class="text-gray-400 text-sm">بدل سيارتك الحالية بسيارة أخرى بكل سهولة وبأفضل تثمين بالسوق.</p>
                 </div>
-                <div>
-                    <label class="block text-gray-300 text-sm mb-1">رقم الهاتف / الجوال</label>
-                    <input type="tel" id="clientPhone" required class="w-full bg-darkBg border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="مثال: 0501234567">
+                <div class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center">
+                    <i class="fa-solid fa-money-check-dollar text-4xl text-accentGold mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">تمويل ميسر</h3>
+                    <p class="text-gray-400 text-sm">برامج تمويل مرنة ومتوافقة مع الشريعة وبأقساط تناسب ميزانيتك.</p>
                 </div>
-                <div>
-                    <label class="block text-gray-300 text-sm mb-1">ملاحظات أو تفاصيل إضافية</label>
-                    <textarea id="clientNotes" rows="3" class="w-full bg-darkBg border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="استفسار عن طريقة الدفع أو المعاينة..."></textarea>
+                <div class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center">
+                    <i class="fa-solid fa-shield-halved text-4xl text-accentGold mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">ضمان شامل</h3>
+                    <p class="text-gray-400 text-sm">ضمان معتمد وموثوق على المحركات والقير لراحة بالك التامة.</p>
                 </div>
-                <button type="submit" class="w-full bg-accentGold text-darkBg font-bold py-3 rounded-lg hover:opacity-90 transition shadow-lg">
-                    إرسال الطلب وإتمام التواصل
-                </button>
-            </form>
+            </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="bg-cardBg border-t border-gray-800 py-8 text-center text-gray-500 text-sm mt-12">
+    <footer class="bg-cardBg border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
         <p>جميع حقوق الطبع والنشر محفوظة © 2026 مجموعة معارض أهل كار</p>
     </footer>
 
-    <!-- Firebase & Swiper JS -->
+    <!-- سكريبت العرض وجلب البيانات -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDummyKeyForShowroom...",
@@ -133,7 +172,7 @@
             try {
                 const querySnapshot = await getDocs(collection(db, "cars"));
                 if (querySnapshot.empty) {
-                    wrapper.innerHTML = '<div class="swiper-slide text-center text-gray-400 py-12 bg-cardBg rounded-2xl border border-gray-800"><p class="text-lg">لا توجد سيارات مضافة حالياً في لوحة التحكم.</p></div>';
+                    wrapper.innerHTML = '<div class="swiper-slide text-center text-gray-400 py-12 bg-cardBg rounded-2xl border border-gray-800"><p class="text-lg">لا توجد سيارات مضافة حالياً.</p></div>';
                     return;
                 }
 
@@ -143,25 +182,25 @@
                     const carName = car.name || 'سيارة بدون عنوان';
                     const carPrice = car.price ? car.price + ' ريال' : 'السعر عند الطلب';
                     const carImage = car.image || 'https://images.unsplash.com/photo-1553440569-bcc63803a83d';
-                    const carDesc = car.description || 'لا توجد تفاصيل إضافية متاحة.';
+                    const carType = car.type === 'used' ? 'مستعمل' : 'جديد';
 
                     html += `
                         <div class="swiper-slide">
                             <div class="bg-cardBg rounded-2xl overflow-hidden shadow-xl border border-gray-800 hover:border-accentGold/50 transition duration-300 flex flex-col justify-between h-full group">
                                 <div class="relative overflow-hidden h-60">
                                     <img src="${carImage}" alt="${carName}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                    <div class="absolute top-3 right-3 bg-darkBg/80 backdrop-blur-md text-accentGold px-3 py-1 rounded-full text-sm font-bold border border-gray-700">
+                                    <div class="absolute top-3 right-3 bg-darkBg/80 backdrop-blur-md text-accentGold px-3 py-1 rounded-full text-xs font-bold border border-gray-700">
                                         ${carPrice}
+                                    </div>
+                                    <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-2.5 py-0.5 rounded-md text-xs font-extrabold">
+                                        ${carType}
                                     </div>
                                 </div>
                                 <div class="p-6 flex-1 flex flex-col justify-between">
-                                    <div>
-                                        <h3 class="text-xl font-bold mb-2 text-white group-hover:text-accentGold transition">${carName}</h3>
-                                        <p class="text-gray-400 text-sm mb-6 line-clamp-2">${carDesc}</p>
-                                    </div>
-                                    <button onclick="openOrderModal('${carName.replace(/'/g, "\\'")}')" class="w-full bg-accentGold text-darkBg font-bold py-3 rounded-xl hover:opacity-90 transition text-center shadow">
-                                        <i class="fa-solid fa-cart-shopping ml-2"></i>احجز أو استفسر الآن
-                                    </button>
+                                    <h3 class="text-xl font-bold mb-4 text-white group-hover:text-accentGold transition">${carName}</h3>
+                                    <a href="new-cars.html" class="w-full bg-accentGold text-darkBg font-bold py-3 rounded-xl hover:opacity-90 transition text-center shadow block">
+                                        عرض التفاصيل
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -169,67 +208,23 @@
                 });
                 wrapper.innerHTML = html;
 
-                // تفعيل مكتبة السلايدر المتحرك
                 new Swiper(".myCarSlider", {
                     slidesPerView: 1,
                     spaceBetween: 24,
                     loop: true,
-                    autoplay: {
-                        delay: 3500,
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: ".swiper-pagination",
-                        clickable: true,
-                    },
+                    autoplay: { delay: 3500, disableOnInteraction: false },
+                    pagination: { el: ".swiper-pagination", clickable: true },
                     breakpoints: {
                         640: { slidesPerView: 1 },
                         768: { slidesPerView: 2 },
                         1024: { slidesPerView: 3 }
                     }
                 });
-
             } catch (err) {
                 console.error(err);
                 wrapper.innerHTML = '<div class="swiper-slide text-center text-red-400 py-12">حدث خطأ أثناء تحميل السيارات.</div>';
             }
         }
-
-        window.openOrderModal = function(carName) {
-            document.getElementById('carTitleInput').value = carName;
-            document.getElementById('modalCarTitle').innerText = 'السيارة المحددة: ' + carName;
-            document.getElementById('orderModal').classList.remove('hidden');
-        }
-
-        window.closeOrderModal = function() {
-            document.getElementById('orderModal').classList.add('hidden');
-        }
-
-        window.submitOrder = async function(e) {
-            e.preventDefault();
-            const carName = document.getElementById('carTitleInput').value;
-            const name = document.getElementById('clientName').value;
-            const phone = document.getElementById('clientPhone').value;
-            const notes = document.getElementById('clientNotes5').value || document.getElementById('clientNotes').value;
-
-            try {
-                await addDoc(collection(db, "orders"), {
-                    carName,
-                    name,
-                    phone,
-                    notes,
-                    status: 'جديد',
-                    date: new Date().toISOString()
-                });
-                alert('تم إرسال طلبك بنجاح! سيتم التواصل معك قريباً.');
-                closeOrderModal();
-                document.getElementById('orderForm').reset();
-            } catch (error) {
-                console.error(error);
-                alert('حدث خطأ أثناء إرسال الطلب، يرجى المحاولة مرة أخرى.');
-            }
-        }
-
         loadCarsSlider();
     </script>
 </body>
