@@ -126,7 +126,7 @@
         <div class="container mx-auto max-w-7xl">
             <div class="text-center mb-10">
                 <h2 class="text-2xl md:text-4xl font-bold text-accentGold mb-2">أحدث عروض المعرض الفورية</h2>
-                <p class="text-gray-400 text-xs md:text-base">تصفح السيارات المضافة حديثاً، اضغط على الصورة لتكبيرها، واستخدم أسهم التنقل بين الصور</p>
+                <p class="text-gray-400 text-xs md:text-base">تصفح السيارات المضافة حديثاً، اضغط على الصورة لتكبيرها، واضغط على زر (X) للرجوع للإعلان</p>
             </div>
 
             <div class="swiper myCarSlider pb-14">
@@ -141,12 +141,14 @@
         </div>
     </section>
 
-    <!-- نافذة مكبرة لعرض الصورة بالكامل عند الضغط عليها (Lightbox) -->
-    <div id="imageModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4">
-        <button onclick="closeImageModal()" class="absolute top-5 left-5 text-white text-3xl bg-darkBg/60 w-12 h-12 rounded-full flex items-center justify-center hover:bg-accentGold hover:text-darkBg transition">
+    <!-- نافذة مكبرة لعرض الصورة بالكامل مع زر إغلاق (X) واضح للرجوع للإعلان -->
+    <div id="imageModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-2">
+        <button onclick="closeImageModal()" class="absolute top-4 left-4 z-50 text-darkBg bg-accentGold w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold shadow-2xl hover:scale-110 transition border-2 border-white" title="إغلاق والرجوع للإعلان">
             <i class="fa-solid fa-xmark"></i>
         </button>
-        <img id="modalImg" src="" alt="صورة مكبرة" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-gray-700">
+        <div class="relative w-full h-full flex items-center justify-center p-2" onclick="closeImageModal()">
+            <img id="modalImg" src="" alt="صورة مكبرة" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-gray-700" onclick="event.stopPropagation()">
+        </div>
     </div>
 
     <!-- Footer -->
@@ -279,7 +281,6 @@
                 });
                 wrapper.innerHTML = html;
 
-                // تفعيل إعلانين جنب بعض على الموبايل (slidesPerView: 2) و3 على الكمبيوتر
                 new Swiper(".myCarSlider", {
                     slidesPerView: 2,
                     spaceBetween: 10,
