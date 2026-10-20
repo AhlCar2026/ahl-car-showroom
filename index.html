@@ -22,9 +22,8 @@
     </script>
     <style>
         .swiper-pagination-bullet-active { background-color: #f59e0b !important; }
-        /* تأثيرات انتقال سينمائية ناعمة */
-        .cinematic-bg {
-            background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.7), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738');
+        /* أنماط خاصة بخلفية السلايدر المتحرك للسيارات */
+        .hero-slider-bg .swiper-slide {
             background-size: cover;
             background-position: center;
         }
@@ -32,7 +31,7 @@
 </head>
 <body class="bg-darkBg text-white font-sans antialiased overflow-x-hidden selection:bg-accentGold selection:text-darkBg">
 
-    <!-- Header / Navigation (بدون أي ذكر للوحة التحكم للزوار) -->
+    <!-- Header / Navigation -->
     <header class="bg-cardBg/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
@@ -59,17 +58,27 @@
         </div>
     </header>
 
-    <!-- Hero Section سينمائي فاخر ومتحرك -->
-    <section class="relative py-28 md:py-40 text-center cinematic-bg overflow-hidden border-b border-gray-800">
-        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-darkBg/50"></div>
+    <!-- Hero Section مع خلفية سيارات متحركة (Background Slider) -->
+    <section class="relative py-32 md:py-44 text-center overflow-hidden border-b border-gray-800">
+        <!-- سلايدر الخلفية المتحرك والدعائي للسيارات -->
+        <div class="swiper heroSlider absolute inset-0 z-0">
+            <div class="swiper-wrapper hero-slider-bg">
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738');"></div>
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1553440569-bcc63803a83d');"></div>
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');"></div>
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1542282088-72c9c27ed0cd');"></div>
+            </div>
+        </div>
+
+        <!-- محتوى الواجهة فوق الخلفية المتحركة -->
         <div class="container mx-auto max-w-5xl relative z-10 px-4">
             <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-6 shadow-lg backdrop-blur-md animate-pulse">
                 القمة في عالم السيارات الفاخرة
             </span>
-            <h1 class="text-4xl md:text-7xl font-extrabold mb-6 text-white leading-tight tracking-tight drop-shadow-md">
+            <h1 class="text-4xl md:text-7xl font-extrabold mb-6 text-white leading-tight tracking-tight drop-shadow-lg">
                 معرض <span class="text-accentGold">أهل كار</span> للسيارات الفاخرة
             </h1>
-            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+            <p class="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light drop-shadow">
                 استمتع بتجربة اقتناء أحدث وأرقى الماركات العالمية بتصاميم عصرية، أسعار تنافسية، وخدمة عملاء راقية ومتميزة.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
@@ -88,7 +97,7 @@
                 <p class="text-gray-400 text-sm md:text-base">اختر الفئة المفضلة لديك لتصفح أحدث الموديلات المتوفرة</p>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentDirect hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
                     <i class="fa-solid fa-car-burst text-4xl text-accentGold mb-4 group-hover:scale-110 transition duration-300"></i>
                     <h3 class="font-bold text-base text-gray-200">جديد</h3>
                 </a>
@@ -139,7 +148,7 @@
         </div>
     </section>
 
-    <!-- قسم مميزات المعرض (لماذا تكون السيارات) -->
+    <!-- قسم مميزات المعرض -->
     <section class="py-16 bg-cardBg/40 border-t border-b border-gray-800 px-4">
         <div class="container mx-auto max-w-7xl">
             <div class="text-center mb-12">
@@ -180,7 +189,7 @@
         </div>
     </footer>
 
-    <!-- السكريبر البرمجي لجلب السيارات وعرضها في السلايدر المتجاوب السحابي -->
+    <!-- السكريبر البرمجي لجلب السيارات وإعداد السلايدرات المتحركة -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -198,6 +207,18 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        // تشغيل سلايدر الخلفية المتحرك والدعائي للسيارات
+        new Swiper(".heroSlider", {
+            slidesPerView: 1,
+            effect: "fade",
+            fadeEffect: { crossFade: true },
+            loop: true,
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            }
+        });
 
         // تفعيل قائمة الجوال المنسدلة
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -253,7 +274,7 @@
                 });
                 wrapper.innerHTML = html;
 
-                // إعدادات مكتبة Swiper المتحركة المتجاوبة بدقة عالية
+                // إعدادات سلايدر السيارات الفورية
                 new Swiper(".myCarSlider", {
                     slidesPerView: 1,
                     spaceBetween: 24,
