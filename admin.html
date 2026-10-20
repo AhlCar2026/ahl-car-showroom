@@ -38,7 +38,7 @@
 
     <main class="container mx-auto px-4 py-8 max-w-6xl space-y-12">
 
-        <!-- قسم إضافة سيارة جديدة مع اختيار القسم (جديد/مستعمل) ورفع الصور من الجهاز -->
+        <!-- قسم إضافة سيارة جديدة مع ضغط الصور تلقائياً -->
         <section class="bg-cardBg border border-gray-800 rounded-2xl p-6 md:p-8 shadow-xl">
             <h2 class="text-2xl font-bold text-accentGold mb-6 flex items-center gap-2">
                 <i class="fa-solid fa-circle-plus"></i>إضافة سيارة أو إعلان جديد للمعرض
@@ -75,7 +75,7 @@
             </form>
         </section>
 
-        <!-- قسم إدارة الطلبات واستفسارات الزبائن -->
+        <!-- قسم إدارة الطلبات والاستفسارات الواردة -->
         <section class="bg-cardBg border border-gray-800 rounded-2xl p-6 md:p-8 shadow-xl">
             <h2 class="text-2xl font-bold text-accentGold mb-6 flex items-center gap-2">
                 <i class="fa-solid fa-list-check"></i>طلبات الشراء والاستفسارات الواردة من الموقع
@@ -105,11 +105,43 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        const convertImageToBase64 = (file) => {
+        // دالة ضغط وتصغير الصورة تلقائياً لمنع أي أخطاء في الحجم
+        const compressImage = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 800;
+                        const MAX_HEIGHT = 800;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // تحويل الصورة المضغطة إلى صيغة Base64 بحجم صغير جداً بجودة عالية
+                        resolve(canvas.toDataURL('image/jpeg', 0.75));
+                    };
+                    img.onerror = (error) => reject(error);
+                };
                 reader.onerror = (error) => reject(error);
             });
         };
@@ -118,37 +150,34 @@
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin ml-2"></i>جاري الرفع والنشر...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin ml-2"></i>جاري ضغط الصورة والرفع...';
 
             const name = document.getElementById('carName').value;
             const price = document.getElementById('carPrice').value;
-            const type = document.getElementById('carType').value; // 'new' أو 'used'
+            const type = document.getElementById('carType').value;
             const description = document.getElementById('carDesc').value;
             const fileInput = document.getElementById('carImageFile').files[0];
 
             try {
-                let base64Image = '';
+                let compressedImage = '';
                 if (fileInput) {
-                    base64Image = await convertImageToBase64(fileInput);
+                    compressedImage = await compressImage(fileInput);
                 }
 
-                console.log("جاري إرسال البيانات:", { name, price, type, description });
-
-                const docRef = await addDoc(collection(db, "cars"), {
+                await addDoc(collection(db, "cars"), {
                     name,
                     price,
                     type,
                     description,
-                    image: base64Image,
+                    image: compressedImage,
                     createdAt: new Date().toISOString()
                 });
 
-                console.log("تم الحفظ بنجاح برقم معرف:", docRef.id);
-                alert('تمت إضافة السيارة ونشرها في قسمها المحدد بالموقع فوراً بنجاح!');
+                alert('تمت إضافة السيارة ونشرها في قسمها بالموقع فوراً بنجاح!');
                 document.getElementById('addCarForm').reset();
             } catch (err) {
                 console.error("خطأ أثناء رفع السيارة:", err);
-                alert('حدث خطأ أثناء رفع السيارة، تأكد من حجم الصورة أو الاتصال بالإنترنت.');
+                alert('حدث خطأ أثناء رفع السيارة، يرجى المحاولة مرة أخرى.');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للقسم المخصص';
