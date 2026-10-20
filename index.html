@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مجموعة معارض أهل كار</title>
+    <title>مجموعة معارض أهل كار - واجهة السيارات الفاخرة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.8/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -22,11 +22,17 @@
     </script>
     <style>
         .swiper-pagination-bullet-active { background-color: #f59e0b !important; }
+        /* تأثيرات انتقال سينمائية ناعمة */
+        .cinematic-bg {
+            background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.7), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738');
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
-<body class="bg-darkBg text-white font-sans antialiased overflow-x-hidden">
+<body class="bg-darkBg text-white font-sans antialiased overflow-x-hidden selection:bg-accentGold selection:text-darkBg">
 
-    <!-- Header / Navigation -->
+    <!-- Header / Navigation (بدون أي ذكر للوحة التحكم للزوار) -->
     <header class="bg-cardBg/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
@@ -39,117 +45,142 @@
                 <a href="new-cars.html" class="hover:text-accentGold transition">السيارات الجديدة</a>
                 <a href="used-cars.html" class="hover:text-accentGold transition">السيارات المستعملة</a>
             </nav>
+            <div class="md:hidden">
+                <button id="mobile-menu-btn" class="text-gray-300 hover:text-accentGold text-2xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <!-- قائمة الجوال المنسدلة -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cardBg border-t border-gray-800 px-4 py-4 space-y-3">
+            <a href="index.html" class="block text-accentGold font-bold">الرئيسية</a>
+            <a href="new-cars.html" class="block text-gray-300 hover:text-accentGold">السيارات الجديدة</a>
+            <a href="used-cars.html" class="block text-gray-300 hover:text-accentGold">السيارات المستعملة</a>
         </div>
     </header>
 
-    <!-- Hero Section with Background Slider -->
-    <section class="relative py-24 md:py-32 text-center bg-cardBg overflow-hidden border-b border-gray-800">
-        <div class="absolute inset-0 opacity-40">
-            <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738" alt="Luxury Car" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-b from-darkBg/60 via-darkBg/80 to-darkBg"></div>
-        </div>
-        <div class="container mx-auto max-w-4xl relative z-10 px-4">
-            <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase inline-block mb-4">اكتشف عالم السيارات الفاخرة</span>
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-white leading-tight">
-                اكتشف عالم السيارات الفاخرة
+    <!-- Hero Section سينمائي فاخر ومتحرك -->
+    <section class="relative py-28 md:py-40 text-center cinematic-bg overflow-hidden border-b border-gray-800">
+        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-transparent to-darkBg/50"></div>
+        <div class="container mx-auto max-w-5xl relative z-10 px-4">
+            <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-6 shadow-lg backdrop-blur-md animate-pulse">
+                القمة في عالم السيارات الفاخرة
+            </span>
+            <h1 class="text-4xl md:text-7xl font-extrabold mb-6 text-white leading-tight tracking-tight drop-shadow-md">
+                معرض <span class="text-accentGold">أهل كار</span> للسيارات الفاخرة
             </h1>
-            <p class="text-gray-300 text-base md:text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
-                وجهتك الأولى في العالم لاختيار السيارات الفاخرة والأنيقة، نقدم لك تشكيلة واسعة ومتجددة من أحدث الماركات العالمية بأسعار تنافسية وخدمة VIP.
+            <p class="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+                استمتع بتجربة اقتناء أحدث وأرقى الماركات العالمية بتصاميم عصرية، أسعار تنافسية، وخدمة عملاء راقية ومتميزة.
             </p>
             <div class="flex flex-wrap justify-center gap-4">
-                <a href="used-cars.html" class="bg-accentGold text-darkBg font-bold px-8 py-3.5 rounded-xl hover:opacity-90 transition shadow-lg flex items-center gap-2">
+                <a href="#featured-showroom" class="bg-accentGold text-darkBg font-bold px-8 py-4 rounded-2xl hover:opacity-90 transition duration-300 shadow-xl flex items-center gap-3 text-lg transform hover:-translate-y-1">
                     <i class="fa-solid fa-car"></i>استعرض السيارات
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- تصنيفات السيارات السريعة -->
-    <section class="py-12 bg-darkBg px-4">
+    <!-- قسم تصنيفات السيارات السريعة -->
+    <section class="py-16 bg-darkBg px-4">
         <div class="container mx-auto max-w-7xl">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-accentGold mb-2">تصنيفات السيارات</h2>
-                <p class="text-gray-400 text-sm">اختر التصنيف المناسب لاستعراض المجموعة المتاحة</p>
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-accentGold mb-3">تصنيفات السيارات</h2>
+                <p class="text-gray-400 text-sm md:text-base">اختر الفئة المفضلة لديك لتصفح أحدث الموديلات المتوفرة</p>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
-                    <i class="fa-solid fa-car-burst text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-bold text-sm">جديد</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-5">
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentDirect hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
+                    <i class="fa-solid fa-car-burst text-4xl text-accentGold mb-4 group-hover:scale-110 transition duration-300"></i>
+                    <h3 class="font-bold text-base text-gray-200">جديد</h3>
                 </a>
-                <a href="used-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
-                    <i class="fa-solid fa-car-rear text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-bold text-sm">مستعمل</h3>
+                <a href="used-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
+                    <i class="fa-solid fa-car-rear text-4xl text-accentGold mb-4 group-hover:scale-110 transition duration-300"></i>
+                    <h3 class="font-bold text-base text-gray-200">مستعمل</h3>
                 </a>
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
-                    <i class="fa-solid fa-gauge-high text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-bold text-sm">رياضية</h3>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
+                    <i class="fa-solid fa-gauge-high text-4xl text-accentGold mb-4 group-hover:scale-110 transition duration-300"></i>
+                    <h3 class="font-bold text-base text-gray-200">رياضية</h3>
                 </a>
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
-                    <i class="fa-solid fa-truck-monster text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-bold text-sm">دفع رباعي</h3>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
+                    <i class="fa-solid fa-truck-monster text-4xl text-accentGold mb-4 group-hover:scale-110 transition duration-300"></i>
+                    <h3 class="font-bold text-base text-gray-200">دفع رباعي</h3>
                 </a>
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
-                    <i class="fa-solid fa-gem text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-bold text-sm">فاخرة</h3>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
+                    <i class="fa-solid fa-gem text-4xl text-accentGold mb-4 group-hover:scale-110 transition duration-300"></i>
+                    <h3 class="font-bold text-base text-gray-200">فاخرة</h3>
                 </a>
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition group">
-                    <i class="fa-solid fa-bolt text-3xl text-accentGold mb-3 group-hover:scale-110 transition"></i>
-                    <h3 class="font-bold text-sm">كهربائية</h3>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg hover:shadow-accentGold/10">
+                    <i class="fa-solid fa-bolt text-4xl text-accentGold mb-4 group-hover:scale-110 transition duration-300"></i>
+                    <h3 class="font-bold text-base text-gray-200">كهربائية</h3>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- معرض السيارات المتحرك (Slider) -->
-    <section class="py-12 px-4 bg-darkBg">
+    <!-- معرض السيارات المتحرك (Slider من قاعدة البيانات السحابية) -->
+    <section id="featured-showroom" class="py-16 px-4 bg-gradient-to-b from-darkBg to-cardBg/30">
         <div class="container mx-auto max-w-7xl">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-accentGold mb-2">معرض السيارات</h2>
-                <p class="text-gray-400 text-sm">أحدث وأجمل سيارات المعرض المتاحة للبيع الفوري</p>
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-accentGold mb-3">أحدث عروض المعرض الفورية</h2>
+                <p class="text-gray-400 text-sm md:text-base">تصفح السيارات المضافة حديثاً وتوجه مباشرة لعرض التفاصيل الكاملة</p>
             </div>
 
-            <div class="swiper myCarSlider pb-12">
+            <!-- Swiper Slider الحقيقي -->
+            <div class="swiper myCarSlider pb-14">
                 <div id="cars-slider-wrapper" class="swiper-wrapper">
-                    <div class="swiper-slide text-center text-gray-400 py-12">جاري تحميل السيارات...</div>
+                    <!-- حالة التحميل الافتراضية -->
+                    <div class="swiper-slide text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800">
+                        <i class="fa-solid fa-spinner fa-spin text-accentGold text-3xl mb-3"></i>
+                        <p>جاري تحميل أسطول السيارات من السحابة...</p>
+                    </div>
                 </div>
+                <!-- ترقيم السلايدر -->
                 <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
 
-    <!-- لماذا تكون السيارات / مميزاتنا -->
-    <section class="py-12 bg-cardBg/50 border-t border-b border-gray-800 px-4">
+    <!-- قسم مميزات المعرض (لماذا تكون السيارات) -->
+    <section class="py-16 bg-cardBg/40 border-t border-b border-gray-800 px-4">
         <div class="container mx-auto max-w-7xl">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-accentGold mb-2">لماذا تكون السيارات ؟</h2>
-                <p class="text-gray-400 text-sm">التميز في خدمة العملاء واختيار السيارات الفاخرة</p>
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-accentGold mb-3">لماذا تختار معارض أهل كار؟</h2>
+                <p class="text-gray-400 text-sm md:text-base">نلتزم بتقديم أعلى معايير الجودة والراحة لعملائنا الكرام</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center">
-                    <i class="fa-solid fa-handshake text-4xl text-accentGold mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">استبدال سهل</h3>
-                    <p class="text-gray-400 text-sm">بدل سيارتك الحالية بسيارة أخرى بكل سهولة وبأفضل تثمين بالسوق.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-cardBg border border-gray-800 p-8 rounded-2xl text-center hover:border-accentGold/50 transition duration-300 shadow-xl">
+                    <div class="w-16 h-16 bg-accentGold/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-accentGold text-2xl">
+                        <i class="fa-solid fa-handshake"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-white">استبدال سهل وسريع</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">استبدل سيارتك الحالية بكل مرونة وبأفضل تثمين معتمد في السوق المحلي.</p>
                 </div>
-                <div class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center">
-                    <i class="fa-solid fa-money-check-dollar text-4xl text-accentGold mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">تمويل ميسر</h3>
-                    <p class="text-gray-400 text-sm">برامج تمويل مرنة ومتوافقة مع الشريعة وبأقساط تناسب ميزانيتك.</p>
+                <div class="bg-cardBg border border-gray-800 p-8 rounded-2xl text-center hover:border-accentGold/50 transition duration-300 shadow-xl">
+                    <div class="w-16 h-16 bg-accentGold/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-accentGold text-2xl">
+                        <i class="fa-solid fa-money-check-dollar"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-white">تمويل ميسر ومتوافق</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">برامج تمويل مرنة تتناسب مع ميزانيتك وبأقساط ميسرة ومتوافقة مع الشريعة.</p>
                 </div>
-                <div class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center">
-                    <i class="fa-solid fa-shield-halved text-4xl text-accentGold mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">ضمان شامل</h3>
-                    <p class="text-gray-400 text-sm">ضمان معتمد وموثوق على المحركات والقير لراحة بالك التامة.</p>
+                <div class="bg-cardBg border border-gray-800 p-8 rounded-2xl text-center hover:border-accentGold/50 transition duration-300 shadow-xl">
+                    <div class="w-16 h-16 bg-accentGold/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-accentGold text-2xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="font-bold text-xl mb-3 text-white">ضمان شامل معتمد</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">ضمان موثوق على المحركات وأنظمة الحركة لضمان راحتك التامة وطمأنينتك.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-cardBg border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
-        <p>جميع حقوق الطبع والنشر محفوظة © 2026 مجموعة معارض أهل كار</p>
+    <footer class="bg-cardBg border-t border-gray-800 py-10 text-center text-gray-500 text-sm">
+        <div class="container mx-auto px-4">
+            <p class="mb-2 text-gray-300 font-bold text-base">مجموعة معارض أهل كار للسيارات الفاخرة</p>
+            <p>جميع حقوق الطبع والنشر محفوظة © 2026</p>
+        </div>
     </footer>
 
-    <!-- سكريبت العرض وجلب البيانات -->
+    <!-- السكريبر البرمجي لجلب السيارات وعرضها في السلايدر المتجاوب السحابي -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -168,12 +199,21 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // تفعيل قائمة الجوال المنسدلة
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+
         async function loadCarsSlider() {
             const wrapper = document.getElementById('cars-slider-wrapper');
             try {
                 const querySnapshot = await getDocs(collection(db, "cars"));
                 if (querySnapshot.empty) {
-                    wrapper.innerHTML = '<div class="swiper-slide text-center text-gray-400 py-12 bg-cardBg rounded-2xl border border-gray-800"><p class="text-lg">لا توجد سيارات مضافة حالياً.</p></div>';
+                    wrapper.innerHTML = '<div class="swiper-slide text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800 col-span-full"><p class="text-lg">لا توجد سيارات مضافة حالياً في المعرض.</p></div>';
                     return;
                 }
 
@@ -184,23 +224,27 @@
                     const carPrice = car.price ? car.price + ' ريال' : 'السعر عند الطلب';
                     const carImage = car.image || 'https://images.unsplash.com/photo-1553440569-bcc63803a83d';
                     const carType = car.type === 'used' ? 'مستعمل' : 'جديد';
+                    const targetPage = car.type === 'used' ? 'used-cars.html' : 'new-cars.html';
 
                     html += `
-                        <div class="swiper-slide">
-                            <div class="bg-cardBg rounded-2xl overflow-hidden shadow-xl border border-gray-800 hover:border-accentGold/50 transition duration-300 flex flex-col justify-between h-full group">
-                                <div class="relative overflow-hidden h-60">
+                        <div class="swiper-slide h-auto">
+                            <div class="bg-cardBg rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-accentGold/60 transition duration-300 flex flex-col justify-between h-full group">
+                                <div class="relative overflow-hidden h-60 bg-gray-900">
                                     <img src="${carImage}" alt="${carName}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                    <div class="absolute top-3 right-3 bg-darkBg/80 backdrop-blur-md text-accentGold px-3 py-1 rounded-full text-xs font-bold border border-gray-700">
+                                    <div class="absolute top-3 right-3 bg-darkBg/85 backdrop-blur-md text-accentGold px-3.5 py-1.5 rounded-full text-xs font-bold border border-gray-700 shadow">
                                         ${carPrice}
                                     </div>
-                                    <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-2.5 py-0.5 rounded-md text-xs font-extrabold">
+                                    <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-3 py-1 rounded-md text-xs font-extrabold shadow">
                                         ${carType}
                                     </div>
                                 </div>
-                                <div class="p-6 flex-1 flex flex-col justify-between">
-                                    <h3 class="text-xl font-bold mb-4 text-white group-hover:text-accentGold transition">${carName}</h3>
-                                    <a href="${car.type === 'used' ? 'used-cars.html' : 'new-cars.html'}" class="w-full bg-accentGold text-darkBg font-bold py-3 rounded-xl hover:opacity-90 transition text-center shadow block">
-                                        عرض التفاصيل
+                                <div class="p-6 flex-1 flex flex-col justify-between space-y-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-white group-hover:text-accentGold transition mb-2">${carName}</h3>
+                                        <p class="text-gray-400 text-sm line-clamp-2 leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية متاحة.'}</p>
+                                    </div>
+                                    <a href="${targetPage}" class="w-full bg-accentGold text-darkBg font-bold py-3 rounded-xl hover:opacity-90 transition duration-300 text-center shadow-lg block">
+                                        عرض التفاصيل الكاملة
                                     </a>
                                 </div>
                             </div>
@@ -209,23 +253,32 @@
                 });
                 wrapper.innerHTML = html;
 
+                // إعدادات مكتبة Swiper المتحركة المتجاوبة بدقة عالية
                 new Swiper(".myCarSlider", {
                     slidesPerView: 1,
                     spaceBetween: 24,
                     loop: true,
-                    autoplay: { delay: 3500, disableOnInteraction: false },
-                    pagination: { el: ".swiper-pagination", clickable: true },
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                    },
                     breakpoints: {
                         640: { slidesPerView: 1 },
                         768: { slidesPerView: 2 },
                         1024: { slidesPerView: 3 }
                     }
                 });
+
             } catch (err) {
-                console.error(err);
-                wrapper.innerHTML = '<div class="swiper-slide text-center text-red-400 py-12">حدث خطأ أثناء تحميل السيارات.</div>';
+                console.error("خطأ في جلب السلايدر:", err);
+                wrapper.innerHTML = '<div class="swiper-slide text-center text-red-400 py-12">حدث خطأ أثناء تحميل عروض السيارات.</div>';
             }
         }
+
         loadCarsSlider();
     </script>
 </body>
