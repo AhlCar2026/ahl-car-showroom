@@ -22,7 +22,6 @@
     </script>
     <style>
         .swiper-pagination-bullet-active { background-color: #f59e0b !important; }
-        /* أنماط خاصة بخلفية السلايدر المتحرك للسيارات */
         .hero-slider-bg .swiper-slide {
             background-size: cover;
             background-position: center;
@@ -58,9 +57,8 @@
         </div>
     </header>
 
-    <!-- Hero Section مع خلفية سيارات متحركة (Background Slider) -->
+    <!-- Hero Section مع خلفية سيارات متحركة -->
     <section class="relative py-32 md:py-44 text-center overflow-hidden border-b border-gray-800">
-        <!-- سلايدر الخلفية المتحرك والدعائي للسيارات -->
         <div class="swiper heroSlider absolute inset-0 z-0">
             <div class="swiper-wrapper hero-slider-bg">
                 <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738');"></div>
@@ -70,7 +68,6 @@
             </div>
         </div>
 
-        <!-- محتوى الواجهة فوق الخلفية المتحركة -->
         <div class="container mx-auto max-w-5xl relative z-10 px-4">
             <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-6 shadow-lg backdrop-blur-md animate-pulse">
                 القمة في عالم السيارات الفاخرة
@@ -89,7 +86,7 @@
         </div>
     </section>
 
-    <!-- قسم تصنيفات السيارات السريعة -->
+    <!-- تصنيفات السيارات السريعة -->
     <section class="py-16 bg-darkBg px-4">
         <div class="container mx-auto max-w-7xl">
             <div class="text-center mb-12">
@@ -130,53 +127,17 @@
         <div class="container mx-auto max-w-7xl">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-accentGold mb-3">أحدث عروض المعرض الفورية</h2>
-                <p class="text-gray-400 text-sm md:text-base">تصفح السيارات المضافة حديثاً وتوجه مباشرة لعرض التفاصيل الكاملة</p>
+                <p class="text-gray-400 text-sm md:text-base">تصفح السيارات المضافة حديثاً مع إمكانية التقليب بين صور السيارة والتوجه للتفاصيل</p>
             </div>
 
-            <!-- Swiper Slider الحقيقي -->
             <div class="swiper myCarSlider pb-14">
                 <div id="cars-slider-wrapper" class="swiper-wrapper">
-                    <!-- حالة التحميل الافتراضية -->
                     <div class="swiper-slide text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800">
                         <i class="fa-solid fa-spinner fa-spin text-accentGold text-3xl mb-3"></i>
                         <p>جاري تحميل أسطول السيارات من السحابة...</p>
                     </div>
                 </div>
-                <!-- ترقيم السلايدر -->
                 <div class="swiper-pagination"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- قسم مميزات المعرض -->
-    <section class="py-16 bg-cardBg/40 border-t border-b border-gray-800 px-4">
-        <div class="container mx-auto max-w-7xl">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-accentGold mb-3">لماذا تختار معارض أهل كار؟</h2>
-                <p class="text-gray-400 text-sm md:text-base">نلتزم بتقديم أعلى معايير الجودة والراحة لعملائنا الكرام</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-cardBg border border-gray-800 p-8 rounded-2xl text-center hover:border-accentGold/50 transition duration-300 shadow-xl">
-                    <div class="w-16 h-16 bg-accentGold/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-accentGold text-2xl">
-                        <i class="fa-solid fa-handshake"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3 text-white">استبدال سهل وسريع</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">استبدل سيارتك الحالية بكل مرونة وبأفضل تثمين معتمد في السوق المحلي.</p>
-                </div>
-                <div class="bg-cardBg border border-gray-800 p-8 rounded-2xl text-center hover:border-accentGold/50 transition duration-300 shadow-xl">
-                    <div class="w-16 h-16 bg-accentGold/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-accentGold text-2xl">
-                        <i class="fa-solid fa-money-check-dollar"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3 text-white">تمويل ميسر ومتوافق</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">برامج تمويل مرنة تتناسب مع ميزانيتك وبأقساط ميسرة ومتوافقة مع الشريعة.</p>
-                </div>
-                <div class="bg-cardBg border border-gray-800 p-8 rounded-2xl text-center hover:border-accentGold/50 transition duration-300 shadow-xl">
-                    <div class="w-16 h-16 bg-accentGold/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-accentGold text-2xl">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3 text-white">ضمان شامل معتمد</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">ضمان موثوق على المحركات وأنظمة الحركة لضمان راحتك التامة وطمأنينتك.</p>
-                </div>
             </div>
         </div>
     </section>
@@ -189,7 +150,6 @@
         </div>
     </footer>
 
-    <!-- السكريبر البرمجي لجلب السيارات وإعداد السلايدرات المتحركة -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -208,19 +168,14 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // تشغيل سلايدر الخلفية المتحرك والدعائي للسيارات
         new Swiper(".heroSlider", {
             slidesPerView: 1,
             effect: "fade",
             fadeEffect: { crossFade: true },
             loop: true,
-            autoplay: {
-                delay: 4500,
-                disableOnInteraction: false,
-            }
+            autoplay: { delay: 4500, disableOnInteraction: false }
         });
 
-        // تفعيل قائمة الجوال المنسدلة
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (menuBtn && mobileMenu) {
@@ -228,6 +183,9 @@
                 mobileMenu.classList.toggle('hidden');
             });
         }
+
+        window.homeImageIndexes = {};
+        window.homeCarsData = {};
 
         async function loadCarsSlider() {
             const wrapper = document.getElementById('cars-slider-wrapper');
@@ -241,21 +199,54 @@
                 let html = '';
                 querySnapshot.forEach((docSnap) => {
                     const car = docSnap.data();
+                    const carKey = docSnap.id;
+                    car.firestoreId = carKey;
+                    window.homeCarsData[carKey] = car;
+
+                    if (window.homeImageIndexes[carKey] === undefined) {
+                        window.homeImageIndexes[carKey] = 0;
+                    }
+
                     const carName = car.name || 'سيارة بدون عنوان';
                     const carPrice = car.price ? car.price + ' ريال' : 'السعر عند الطلب';
-                    const carImage = car.image || 'https://images.unsplash.com/photo-1553440569-bcc63803a83d';
                     const carType = car.type === 'used' ? 'مستعمل' : 'جديد';
                     const targetPage = car.type === 'used' ? 'used-cars.html' : 'new-cars.html';
+
+                    let imagesArray = [];
+                    if (Array.isArray(car.images) && car.images.length > 0) {
+                        imagesArray = car.images;
+                    } else if (car.image) {
+                        imagesArray = [car.image];
+                    } else {
+                        imagesArray = ['https://images.unsplash.com/photo-1553440569-bcc63803a83d'];
+                    }
+
+                    const imgIdx = window.homeImageIndexes[carKey];
+                    const currentImg = imagesArray[imgIdx] || imagesArray[0];
 
                     html += `
                         <div class="swiper-slide h-auto">
                             <div class="bg-cardBg rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-accentGold/60 transition duration-300 flex flex-col justify-between h-full group">
-                                <div class="relative overflow-hidden h-60 bg-gray-900">
-                                    <img src="${carImage}" alt="${carName}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                    <div class="absolute top-3 right-3 bg-darkBg/85 backdrop-blur-md text-accentGold px-3.5 py-1.5 rounded-full text-xs font-bold border border-gray-700 shadow">
+                                <div class="relative overflow-hidden h-64 bg-black flex items-center justify-center">
+                                    <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300">
+                                    
+                                    <!-- أزرار التنقل بين الصور يمين ويسار -->
+                                    ${imagesArray.length > 1 ? `
+                                        <button onclick="changeHomeImage('${carKey}', -1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10">
+                                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                                        </button>
+                                        <button onclick="changeHomeImage('${carKey}', 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10">
+                                            <i class="fa-solid fa-chevron-left text-xs"></i>
+                                        </button>
+                                        <span class="absolute bottom-2 left-2 bg-black/70 text-xs px-2.5 py-1 rounded-md text-accentGold font-bold z-10">
+                                            ${imgIdx + 1} /${imagesArray.length}
+                                        </span>
+                                    ` : ''}
+
+                                    <div class="absolute top-3 right-3 bg-darkBg/85 backdrop-blur-md text-accentGold px-3.5 py-1.5 rounded-full text-xs font-bold border border-gray-700 shadow z-10">
                                         ${carPrice}
                                     </div>
-                                    <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-3 py-1 rounded-md text-xs font-extrabold shadow">
+                                    <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-3 py-1 rounded-md text-xs font-extrabold shadow z-10">
                                         ${carType}
                                     </div>
                                 </div>
@@ -274,19 +265,12 @@
                 });
                 wrapper.innerHTML = html;
 
-                // إعدادات سلايدر السيارات الفورية
                 new Swiper(".myCarSlider", {
                     slidesPerView: 1,
                     spaceBetween: 24,
                     loop: true,
-                    autoplay: {
-                        delay: 4000,
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: ".swiper-pagination",
-                        clickable: true,
-                    },
+                    autoplay: { delay: 4000, disableOnInteraction: false },
+                    pagination: { el: ".swiper-pagination", clickable: true },
                     breakpoints: {
                         640: { slidesPerView: 1 },
                         768: { slidesPerView: 2 },
@@ -297,6 +281,24 @@
             } catch (err) {
                 console.error("خطأ في جلب السلايدر:", err);
                 wrapper.innerHTML = '<div class="swiper-slide text-center text-red-400 py-12">حدث خطأ أثناء تحميل عروض السيارات.</div>';
+            }
+        }
+
+        window.changeHomeImage = function(carKey, direction) {
+            const car = window.homeCarsData[carKey];
+            if (!car) return;
+            let imagesArray = [];
+            if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
+            else if (car.image) imagesArray = [car.image];
+            else imagesArray = ['https://images.unsplash.com/photo-1553440569-bcc63803a83d'];
+
+            if (imagesArray.length > 1) {
+                let current = window.homeImageIndexes[carKey] || 0;
+                current += direction;
+                if (current < 0) current = imagesArray.length - 1;
+                if (current >= imagesArray.length) current = 0;
+                window.homeImageIndexes[carKey] = current;
+                loadCarsSlider();
             }
         }
 
