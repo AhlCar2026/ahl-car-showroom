@@ -38,24 +38,31 @@
 
     <main class="container mx-auto px-4 py-8 max-w-6xl space-y-12">
 
-        <!-- قسم إضافة سيارة جديدة مع رفع الصور من الجهاز -->
+        <!-- قسم إضافة سيارة جديدة مع اختيار القسم (جديد/مستعمل) ورفع الصور من الجهاز -->
         <section class="bg-cardBg border border-gray-800 rounded-2xl p-6 md:p-8 shadow-xl">
             <h2 class="text-2xl font-bold text-accentGold mb-6 flex items-center gap-2">
                 <i class="fa-solid fa-circle-plus"></i>إضافة سيارة أو إعلان جديد للمعرض
             </h2>
             <form id="addCarForm" onsubmit="addNewCar(event)" class="space-y-6">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label class="block text-gray-300 text-sm mb-2">عنوان السيارة / الموديل</label>
-                        <input type="text" id="carName" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="مثال: تويوتا كامري 2026 فل كامل">
+                        <input type="text" id="carName" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="مثال: تويوتا كامري 2026">
                     </div>
                     <div>
                         <label class="block text-gray-300 text-sm mb-2">السعر (بالريال)</label>
-                        <input type="text" id="carPrice" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="مثال: 95000">
+                        <input type="text" id="carPrice" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="مثال: 95000 ريال">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 text-sm mb-2">القسم (لتوجيه الإعلان تلقائياً)</label>
+                        <select id="carType" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accentGold">
+                            <option value="new">سيارات جديدة</option>
+                            <option value="used">سيارات مستعملة</option>
+                        </select>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-gray-300 text-sm mb-2">رفع صورة السيارة (من الموبيل أو اللاب توب)</label>
+                    <label class="block text-gray-300 text-sm mb-2">رفع صورة السيارة (من الموبايل أو اللاب توب)</label>
                     <input type="file" id="carImageFile" accept="image/*" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-gray-300 file:ml-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-accentGold file:text-darkBg file:font-bold hover:file:opacity-90 cursor-pointer">
                 </div>
                 <div>
@@ -63,7 +70,7 @@
                     <textarea id="carDesc" rows="3" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-accentGold" placeholder="اكتب المواصفات، الممشى، اللون، أو أي تفاصيل أخرى..."></textarea>
                 </div>
                 <button type="submit" id="submitBtn" class="w-full bg-accentGold text-darkBg font-bold py-3.5 rounded-xl hover:opacity-90 transition shadow-lg text-lg flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للمعرض
+                    <i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للقسم المخصص
                 </button>
             </form>
         </section>
@@ -86,18 +93,19 @@
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDummyKeyForShowroom...",
+            apiKey: "AIzaSyAhvlqVZD9S9EwQJM3HGaN2W9es2EOtA-Q",
             authDomain: "ahl-car-showroom-db.firebaseapp.com",
             projectId: "ahl-car-showroom-db",
-            storageBucket: "ahl-car-showroom-db.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123:web:abc"
+            storageBucket: "ahl-car-showroom-db.firebasestorage.app",
+            messagingSenderId: "381597747239",
+            appId: "1:381597747239:web:5db9d994dc0f8de9ec2602",
+            measurementId: "G-5Q5WSL36YH"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // تحويل صورة الجهاز إلى Base64 لرفعها وحفظها بسهولة دون الحاجة لخدمات تخزين خارجية معقدة
+        // تحويل صورة الجهاز إلى Base64 لرفعها وحفظها بسلاسة في قاعدة البيانات
         const convertImageToBase64 = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -115,6 +123,7 @@
 
             const name = document.getElementById('carName').value;
             const price = document.getElementById('carPrice').value;
+            const type = document.getElementById('carType').value;
             const description = document.getElementById('carDesc').value;
             const fileInput = document.getElementById('carImageFile').files[0];
 
@@ -127,19 +136,20 @@
                 await addDoc(collection(db, "cars"), {
                     name,
                     price,
+                    type,
                     description,
                     image: base64Image,
                     createdAt: new Date().toISOString()
                 });
 
-                alert('تمت إضافة السيارة ونشرها في الموقع فوراً بنجاح!');
+                alert('تمت إضافة السيارة ونشرها في قسمها المحدد بالموقع فوراً بنجاح!');
                 document.getElementById('addCarForm').reset();
             } catch (err) {
                 console.error(err);
                 alert('حدث خطأ أثناء رفع السيارة، تأكد من حجم الصورة.');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للمعرض';
+                btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للقسم المخصص';
             }
         }
 
