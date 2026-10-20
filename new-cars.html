@@ -13,7 +13,13 @@
 <body class="bg-darkBg text-white font-sans antialiased min-h-screen flex flex-col justify-between">
     <header class="bg-cardBg border-b border-gray-800 sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-2xl font-bold text-accentGold flex items-center gap-2"><i class="fa-solid fa-car-side"></i>أهل كار</a>
+            <div class="flex items-center gap-4">
+                <!-- زر سهم الرجوع للصفحة الرئيسية -->
+                <a href="index.html" class="bg-darkBg hover:bg-gray-800 text-accentGold border border-gray-700 w-10 h-10 rounded-xl flex items-center justify-center transition shadow" title="الرجوع للصفحة الرئيسية">
+                    <i class="fa-solid fa-arrow-right text-lg"></i>
+                </a>
+                <a href="index.html" class="text-2xl font-bold text-accentGold flex items-center gap-2"><i class="fa-solid fa-car-side"></i>أهل كار</a>
+            </div>
             <nav class="hidden md:flex space-x-6 space-x-reverse text-gray-300 font-medium">
                 <a href="index.html" class="hover:text-accentGold transition">الرئيسية</a>
                 <a href="new-cars.html" class="text-accentGold font-bold">السيارات الجديدة</a>
@@ -92,28 +98,38 @@
                     }
 
                     let imagesArray = [];
-                    if (Array.isArray(car.images)) imagesArray = car.images;
-                    else if (car.image) imagesArray = [car.image];
-                    else imagesArray = ['https://via.placeholder.com/600x400'];
+                    if (Array.isArray(car.images) && car.images.length > 0) {
+                        imagesArray = car.images;
+                    } else if (car.image) {
+                        imagesArray = [car.image];
+                    } else {
+                        imagesArray = ['https://via.placeholder.com/600x400'];
+                    }
 
                     const imgIdx = window.currentImageIndexes[carKey];
                     const currentImg = imagesArray[imgIdx] || imagesArray[0];
 
                     grid.innerHTML += `
                         <div class="bg-cardBg rounded-2xl overflow-hidden border border-gray-800 shadow-xl flex flex-col justify-between group hover:border-accentGold/50 transition">
-                            <div class="relative h-56 bg-gray-900 overflow-hidden">
-                                <img src="${currentImg}" alt="${car.name}" class="w-full h-full object-cover transition duration-300">
+                            <div class="relative h-64 bg-black flex items-center justify-center overflow-hidden">
+                                <img src="${currentImg}" alt="${car.name}" class="w-full h-full object-contain transition duration-300">
                                 ${imagesArray.length > 1 ? `
-                                    <button onclick="changeImage('${carKey}', -1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm shadow">
+                                    <button onclick="changeImage('${carKey}', -1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10">
                                         <i class="fa-solid fa-chevron-right text-xs"></i>
                                     </button>
-                                    <button onclick="changeImage('${carKey}', 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition backdrop-blur-sm shadow">
+                                    <button onclick="changeImage('${carKey}', 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10">
                                         <i class="fa-solid fa-chevron-left text-xs"></i>
                                     </button>
-                                    <span class="absolute bottom-2 left-2 bg-black/70 text-xs px-2.5 py-1 rounded-md text-accentGold font-bold backdrop-blur-sm">
+                                    <span class="absolute bottom-2 left-2 bg-black/70 text-xs px-2.5 py-1 rounded-md text-accentGold font-bold z-10">
                                         ${imgIdx + 1} /${imagesArray.length}
                                     </span>
                                 ` : ''}
+                                <div class="absolute top-3 right-3 bg-darkBg/85 backdrop-blur-md text-accentGold px-3.5 py-1.5 rounded-full text-xs font-bold border border-gray-700 shadow z-10">
+                                    ${car.price || 'السعر عند الطلب'} ريال
+                                </div>
+                                <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-3 py-1 rounded-md text-xs font-extrabold shadow z-10">
+                                    جديد
+                                </div>
                             </div>
                             <div class="p-6 flex-1 flex flex-col justify-between">
                                 <div>
@@ -121,7 +137,6 @@
                                     <p class="text-gray-400 text-sm mb-4 leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية متاحة.'}</p>
                                 </div>
                                 <div>
-                                    <div class="text-accentGold font-extrabold text-xl mb-4">${car.price || 'السعر عند الطلب'} ريال</div>
                                     <a href="https://wa.me/?text=${encodeURIComponent('أهلاً، أرغب بالاستفسار عن السيارة الجديدة: ' + (car.name || ''))}" target="_blank" class="block text-center bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
                                         <i class="fa-brands fa-whatsapp text-lg"></i> استفسر عبر واتساب
                                     </a>
@@ -138,7 +153,11 @@
         window.changeImage = function(carKey, direction) {
             const car = window.carsDataStore[carKey];
             if (!car) return;
-            let imagesArray = Array.isArray(car.images) ? car.images : (car.image ? [car.image] : ['https://via.placeholder.com/600x400']);
+            let imagesArray = [];
+            if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
+            else if (car.image) imagesArray = [car.image];
+            else imagesArray = ['https://via.placeholder.com/600x400'];
+
             if (imagesArray.length > 1) {
                 let current = window.currentImageIndexes[carKey] || 0;
                 current += direction;
