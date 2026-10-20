@@ -122,7 +122,7 @@
 
             const name = document.getElementById('carName').value;
             const price = document.getElementById('carPrice').value;
-            const type = document.getElementById('carType').value;
+            const type = document.getElementById('carType').value; // 'new' أو 'used'
             const description = document.getElementById('carDesc').value;
             const fileInput = document.getElementById('carImageFile').files[0];
 
@@ -132,7 +132,9 @@
                     base64Image = await convertImageToBase64(fileInput);
                 }
 
-                await addDoc(collection(db, "cars"), {
+                console.log("جاري إرسال البيانات:", { name, price, type, description });
+
+                const docRef = await addDoc(collection(db, "cars"), {
                     name,
                     price,
                     type,
@@ -141,11 +143,12 @@
                     createdAt: new Date().toISOString()
                 });
 
+                console.log("تم الحفظ بنجاح برقم معرف:", docRef.id);
                 alert('تمت إضافة السيارة ونشرها في قسمها المحدد بالموقع فوراً بنجاح!');
                 document.getElementById('addCarForm').reset();
             } catch (err) {
-                console.error(err);
-                alert('حدث خطأ أثناء رفع السيارة، تأكد من حجم الصورة.');
+                console.error("خطأ أثناء رفع السيارة:", err);
+                alert('حدث خطأ أثناء رفع السيارة، تأكد من حجم الصورة أو الاتصال بالإنترنت.');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للقسم المخصص';
