@@ -39,15 +39,16 @@
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-10 flex-1">
-        <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
-            <h2 class="text-3xl font-extrabold text-accentGold flex items-center gap-2">
+    <main class="container mx-auto px-2 md:px-4 py-10 flex-1">
+        <div class="flex justify-between items-center mb-8 border-b border-gray-800 pb-4 px-2">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-accentGold flex items-center gap-2">
                 <i class="fa-solid fa-rotate-left"></i> العربيات المستعملة (السحابية)
             </h2>
-            <span id="cars-count" class="bg-cardBg text-gray-300 text-sm px-3 py-1 rounded-full border border-gray-800">جاري التحديث...</span>
+            <span id="cars-count" class="bg-cardBg text-gray-300 text-xs md:text-sm px-3 py-1 rounded-full border border-gray-800">جاري التحديث...</span>
         </div>
 
-        <div id="cars-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- ضبط الشبكة لتصبح إعلانين بجانب بعضهما على الموبايل و3 على الكمبيوتر -->
+        <div id="cars-grid" class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
             <div class="col-span-full text-center py-16 text-gray-400">
                 <i class="fa-solid fa-spinner fa-spin text-accentGold text-3xl mb-3"></i>
                 <p>جاري تحميل العربيات المستعملة من السحابة...</p>
@@ -55,8 +56,22 @@
         </div>
     </main>
 
-    <footer class="bg-cardBg border-t border-gray-800 py-6 text-center text-gray-500 text-sm">
-        <p>جميع الحقوق محفوظة © 2026 - مجموعة معارض أهل كار</p>
+    <!-- نافذة مكبرة لعرض الصورة بالكامل مع زر إغلاق (X) واضح للرجوع للإعلان -->
+    <div id="imageModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-2">
+        <button onclick="closeImageModal()" class="absolute top-4 left-4 z-50 text-darkBg bg-accentGold w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold shadow-2xl hover:scale-110 transition border-2 border-white" title="إغلاق والرجوع للإعلان">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="relative w-full h-full flex items-center justify-center p-2" onclick="closeImageModal()">
+            <img id="modalImg" src="" alt="صورة مكبرة" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-gray-700" onclick="event.stopPropagation()">
+        </div>
+    </div>
+
+    <footer class="bg-cardBg border-t border-gray-800 py-8 text-center text-gray-400 text-xs md:text-sm">
+        <div class="container mx-auto px-4 space-y-2">
+            <p class="text-gray-200 font-bold text-base">مجموعة معارض أهل كار للسيارات الفاخرة</p>
+            <p><i class="fa-brands fa-whatsapp text-green-500 ml-1"></i> للتواصل واتساب: <a href="https://wa.me/966573634794" target="_blank" class="text-accentGold font-bold hover:underline">0573634794</a></p>
+            <p class="text-gray-500">جميع حقوق الطبع والنشر محفوظة © 2026</p>
+        </div>
     </footer>
 
     <!-- سكربت جلب وعرض السيارات المستعملة من Firestore -->
@@ -96,6 +111,13 @@
                     }
                 });
 
+                // ترتيب السيارات لتظهر الإعلانات المضافة حديثاً في المقدمة
+                cars.sort((a, b) => {
+                    const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                    const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                    return timeB - timeA;
+                });
+
                 countBadge.innerText = `${cars.length} سيارات متوفرة`;
                 grid.innerHTML = '';
 
@@ -123,37 +145,40 @@
 
                     const imgIdx = window.currentImageIndexes[carKey];
                     const currentImg = imagesArray[imgIdx] || imagesArray[0];
+                    const carName = car.name || 'سيارة مستعملة';
+                    const carPrice = car.price || 'السعر عند الاتصال';
+                    const whatsappMsg = encodeURIComponent(`مرحباً، أرغب في الاستفسار عن السيارة المستعملة: ${carName} بسعر ${carPrice}`);
 
                     grid.innerHTML += `
-                        <div class="bg-cardBg rounded-2xl overflow-hidden border border-gray-800 shadow-xl flex flex-col justify-between group hover:border-accentGold/50 transition">
-                            <div class="relative h-64 bg-black flex items-center justify-center overflow-hidden">
-                                <img src="${currentImg}" alt="${car.name}" class="w-full h-full object-contain transition duration-300">
+                        <div class="bg-cardBg rounded-xl md:rounded-2xl overflow-hidden border border-gray-800 shadow-xl flex flex-col justify-between group hover:border-accentGold/50 transition">
+                            <div class="relative h-40 sm:h-52 md:h-60 bg-black flex items-center justify-center overflow-hidden cursor-pointer" onclick="openImageModal('${currentImg}')">
+                                <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300 group-hover:scale-105" title="اضغط لتكبير الصورة">
                                 ${imagesArray.length > 1 ? `
-                                    <button onclick="changeImage('${carKey}', -1)" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10">
-                                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                                    <button onclick="event.stopPropagation(); changeImage('${carKey}', -1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة السابقة">
+                                        <i class="fa-solid fa-chevron-right text-[10px] md:text-xs"></i>
                                     </button>
-                                    <button onclick="changeImage('${carKey}', 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10">
-                                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                                    <button onclick="event.stopPropagation(); changeImage('${carKey}', 1)" class="absolute left-1.5 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة التالية">
+                                        <i class="fa-solid fa-chevron-left text-[10px] md:text-xs"></i>
                                     </button>
-                                    <span class="absolute bottom-2 left-2 bg-black/70 text-xs px-2.5 py-1 rounded-md text-accentGold font-bold z-10">
+                                    <span class="absolute bottom-1.5 left-1.5 bg-black/80 text-[10px] md:text-xs px-2 py-0.5 rounded-md text-accentGold font-bold z-10">
                                         ${imgIdx + 1} /${imagesArray.length}
                                     </span>
                                 ` : ''}
-                                <div class="absolute top-3 right-3 bg-darkBg/85 backdrop-blur-md text-accentGold px-3.5 py-1.5 rounded-full text-xs font-bold border border-gray-700 shadow z-10">
-                                    ${car.price || 'السعر عند الاتصال'}
+                                <div class="absolute top-2 right-2 bg-darkBg/90 backdrop-blur-md text-accentGold px-2.5 py-1 rounded-full text-[11px] md:text-xs font-bold border border-gray-700 shadow z-10">
+                                    ${carPrice}
                                 </div>
-                                <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-3 py-1 rounded-md text-xs font-extrabold shadow z-10">
+                                <div class="absolute top-2 left-2 bg-accentGold text-darkBg px-2 py-0.5 rounded text-[10px] md:text-xs font-extrabold shadow z-10">
                                     مستعمل
                                 </div>
                             </div>
-                            <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div class="p-3 md:p-6 flex-1 flex flex-col justify-between space-y-3">
                                 <div>
-                                    <h3 class="text-xl font-bold mb-2 text-white">${car.name || 'سيارة مستعملة'}</h3>
-                                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية.'}</p>
+                                    <h3 class="text-base md:text-xl font-bold mb-1 text-white line-clamp-1">${carName}</h3>
+                                    <p class="text-gray-400 text-xs md:text-sm mb-3 line-clamp-2 leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية.'}</p>
                                 </div>
                                 <div>
-                                    <a href="https://wa.me/?text=${encodeURIComponent('أهلاً، أرغب في الاستفسار عن السيارة المستعملة: ' + (car.name || ''))}" target="_blank" class="block text-center bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
-                                        <i class="fa-brands fa-whatsapp text-lg"></i> استفسر عبر واتساب
+                                    <a href="https://wa.me/966573634794?text=${whatsappMsg}" target="_blank" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 md:py-2.5 rounded-xl transition duration-300 text-center text-xs md:text-sm flex items-center justify-center gap-1.5 shadow">
+                                        <i class="fa-brands fa-whatsapp text-sm md:text-base"></i> استفسر عبر واتساب
                                     </a>
                                 </div>
                             </div>
@@ -184,6 +209,18 @@
                 window.currentImageIndexes[carKey] = current;
                 loadUsedCars();
             }
+        }
+
+        window.openImageModal = function(imgSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = imgSrc;
+            modal.classList.remove('hidden');
+        }
+
+        window.closeImageModal = function() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
         }
 
         loadUsedCars();
