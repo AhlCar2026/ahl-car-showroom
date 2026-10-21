@@ -6,7 +6,6 @@
     <title>مجموعة معارض أهل كار - واجهة السيارات الفاخرة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.8/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script>
         tailwind.config = {
             theme: {
@@ -21,7 +20,6 @@
         }
     </script>
     <style>
-        .swiper-pagination-bullet-active { background-color: #f59e0b !important; }
         .hero-slider-bg .swiper-slide {
             background-size: cover;
             background-position: center;
@@ -58,77 +56,66 @@
     </header>
 
     <!-- Hero Section مع خلفية سيارات متحركة -->
-    <section class="relative py-28 md:py-40 text-center overflow-hidden border-b border-gray-800">
-        <div class="swiper heroSlider absolute inset-0 z-0">
-            <div class="swiper-wrapper hero-slider-bg">
-                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738');"></div>
-                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1553440569-bcc63803a83d');"></div>
-                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');"></div>
-            </div>
-        </div>
-
+    <section class="relative py-24 md:py-36 text-center overflow-hidden border-b border-gray-800">
         <div class="container mx-auto max-w-5xl relative z-10 px-4">
-            <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-6 shadow-lg backdrop-blur-md animate-pulse">
+            <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-6 shadow-lg backdrop-blur-md">
                 القمة في عالم السيارات الفاخرة
             </span>
             <h1 class="text-3xl md:text-6xl font-extrabold mb-6 text-white leading-tight tracking-tight drop-shadow-lg">
                 معرض <span class="text-accentGold">أهل كار</span> للسيارات الفاخرة
             </h1>
-            <p class="text-gray-200 text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light drop-shadow">
+            <p class="text-gray-200 text-base md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed font-light">
                 استمتع بتجربة اقتناء أحدث وأرقى الماركات العالمية بتصاميم عصرية، أسعار تنافسية، وخدمة عملاء راقية ومتميزة.
             </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#featured-showroom" class="bg-accentGold text-darkBg font-bold px-8 py-3.5 rounded-2xl hover:opacity-90 transition duration-300 shadow-xl flex items-center gap-3 text-base md:text-lg transform hover:-translate-y-1">
-                    <i class="fa-solid fa-car"></i>استعرض السيارات
-                </a>
-            </div>
         </div>
     </section>
 
-    <!-- تصنيفات السيارات السريعة (جديد، مستعمل، فاخرة، كهربائية) -->
-    <section class="py-12 bg-darkBg px-4">
+    <!-- تصنيفات السيارات السريعة -->
+    <section class="py-10 bg-darkBg px-4">
         <div class="container mx-auto max-w-5xl">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl md:text-4xl font-bold text-accentGold mb-2">تصنيفات السيارات</h2>
-                <p class="text-gray-400 text-sm">اختر الفئة المفضلة لديك لتصفح أحدث الموديلات المتوفرة</p>
-            </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
-                    <i class="fa-solid fa-car-burst text-3xl text-accentGold mb-3 group-hover:scale-110 transition duration-300"></i>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
+                    <i class="fa-solid fa-car-burst text-2xl text-accentGold mb-2 group-hover:scale-110 transition duration-300"></i>
                     <h3 class="font-bold text-sm text-gray-200">جديد</h3>
                 </a>
-                <a href="used-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
-                    <i class="fa-solid fa-car-rear text-3xl text-accentGold mb-3 group-hover:scale-110 transition duration-300"></i>
+                <a href="used-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
+                    <i class="fa-solid fa-car-rear text-2xl text-accentGold mb-2 group-hover:scale-110 transition duration-300"></i>
                     <h3 class="font-bold text-sm text-gray-200">مستعمل</h3>
                 </a>
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
-                    <i class="fa-solid fa-gem text-3xl text-accentGold mb-3 group-hover:scale-110 transition duration-300"></i>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
+                    <i class="fa-solid fa-gem text-2xl text-accentGold mb-2 group-hover:scale-110 transition duration-300"></i>
                     <h3 class="font-bold text-sm text-gray-200">فاخرة</h3>
                 </a>
-                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-6 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
-                    <i class="fa-solid fa-bolt text-3xl text-accentGold mb-3 group-hover:scale-110 transition duration-300"></i>
+                <a href="new-cars.html" class="bg-cardBg border border-gray-800 p-5 rounded-2xl text-center hover:border-accentGold transition duration-300 group shadow-lg">
+                    <i class="fa-solid fa-bolt text-2xl text-accentGold mb-2 group-hover:scale-110 transition duration-300"></i>
                     <h3 class="font-bold text-sm text-gray-200">كهربائية</h3>
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- معرض السيارات المتحرك (إعلانين جنب بعض على الموبايل و3 على الكمبيوتر) -->
-    <section id="featured-showroom" class="py-12 px-2 md:px-4 bg-gradient-to-b from-darkBg to-cardBg/30">
-        <div class="container mx-auto max-w-7xl">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl md:text-4xl font-bold text-accentGold mb-2">أحدث عروض المعرض الفورية</h2>
-                <p class="text-gray-400 text-xs md:text-base">تصفح السيارات المضافة حديثاً في المقدمة، اضغط على الصورة لتكبيرها وتصفح صورها بالكامل</p>
+    <!-- قسم المعرض والبحث الذكي (عرض عمودي تحت بعض) -->
+    <section id="featured-showroom" class="py-12 px-4 bg-gradient-to-b from-darkBg to-cardBg/30">
+        <div class="container mx-auto max-w-3xl space-y-8">
+            <div class="text-center space-y-3">
+                <h2 class="text-2xl md:text-4xl font-bold text-accentGold">أحدث عروض المعرض الفورية</h2>
+                <p class="text-gray-400 text-xs md:text-sm">تصفح السيارات المعروضة، أو استخدم بحث الذكاء الاصطناعي للعثور على سيارتك فوراً</p>
             </div>
 
-            <div class="swiper myCarSlider pb-14">
-                <div id="cars-slider-wrapper" class="swiper-wrapper">
-                    <div class="swiper-slide text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800">
-                        <i class="fa-solid fa-spinner fa-spin text-accentGold text-3xl mb-3"></i>
-                        <p>جاري تحميل أسطول السيارات من السحابة...</p>
-                    </div>
+            <!-- خانة البحث الذكية -->
+            <div class="relative">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-accentGold">
+                    <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+                </span>
+                <input type="text" id="aiSearchInput" oninput="filterCars()" placeholder="ابحث بالذكاء الاصطناعي (ابحث باسم السيارة، السعر، النوع، أو المواصفات...)" class="w-full bg-cardBg border border-gray-700 rounded-2xl pr-12 pl-4 py-4 text-white placeholder-gray-400 focus:outline-none focus:border-accentGold shadow-xl text-sm md:text-base">
+            </div>
+
+            <!-- قائمة الإعلانات المرتبة تحت بعضها عمودياً -->
+            <div id="cars-vertical-list" class="space-y-6">
+                <div class="text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800">
+                    <i class="fa-solid fa-spinner fa-spin text-accentGold text-3xl mb-3"></i>
+                    <p>جاري تحميل أسطول السيارات من السحابة...</p>
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
         </div>
     </section>
@@ -162,7 +149,6 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -180,14 +166,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        new Swiper(".heroSlider", {
-            slidesPerView: 1,
-            effect: "fade",
-            fadeEffect: { crossFade: true },
-            loop: true,
-            autoplay: { delay: 4500, disableOnInteraction: false }
-        });
-
         const menuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (menuBtn && mobileMenu) {
@@ -197,132 +175,139 @@
         }
 
         window.homeImageIndexes = {};
-        window.homeCarsData = {};
+        window.allCarsData = [];
         window.currentModalCarKey = null;
 
-        async function loadCarsSlider() {
-            const wrapper = document.getElementById('cars-slider-wrapper');
+        async function loadCarsVerticalList() {
+            const container = document.getElementById('cars-vertical-list');
             try {
                 const querySnapshot = await getDocs(collection(db, "cars"));
                 if (querySnapshot.empty) {
-                    wrapper.innerHTML = '<div class="swiper-slide text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800 col-span-full"><p class="text-lg">لا توجد سيارات مضافة حالياً في المعرض.</p></div>';
+                    container.innerHTML = '<div class="text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800"><p class="text-lg">لا توجد سيارات مضافة حالياً في المعرض.</p></div>';
                     return;
                 }
 
-                let carsList = [];
+                window.allCarsData = [];
                 querySnapshot.forEach((docSnap) => {
                     const car = docSnap.data();
                     car.firestoreId = docSnap.id;
-                    carsList.push(car);
+                    window.allCarsData.push(car);
                 });
 
                 // ترتيب السيارات لتظهر الإعلانات المضافة حديثاً في المقدمة
-                carsList.sort((a, b) => {
+                window.allCarsData.sort((a, b) => {
                     const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                     const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
                     return timeB - timeA;
                 });
 
-                let html = '';
-                carsList.forEach((car) => {
-                    const carKey = car.firestoreId;
-                    window.homeCarsData[carKey] = car;
-
-                    if (window.homeImageIndexes[carKey] === undefined) {
-                        window.homeImageIndexes[carKey] = 0;
-                    }
-
-                    const carName = car.name || 'سيارة بدون عنوان';
-                    const carPrice = car.price ? car.price + ' ريال' : 'السعر عند الطلب';
-                    const carType = car.type === 'used' ? 'مستعمل' : 'جديد';
-                    const targetPage = car.type === 'used' ? 'used-cars.html' : 'new-cars.html';
-
-                    let imagesArray = [];
-                    if (Array.isArray(car.images) && car.images.length > 0) {
-                        imagesArray = car.images;
-                    } else if (car.image) {
-                        imagesArray = [car.image];
-                    } else {
-                        imagesArray = ['https://images.unsplash.com/photo-1553440569-bcc63803a83d'];
-                    }
-
-                    const imgIdx = window.homeImageIndexes[carKey];
-                    const currentImg = imagesArray[imgIdx] || imagesArray[0];
-
-                    const whatsappMsg = encodeURIComponent(`مرحباً، أرغب بالاستفسار عن السيارة: ${carName} بسعر ${carPrice}`);
-
-                    html += `
-                        <div class="swiper-slide h-auto">
-                            <div class="bg-cardBg rounded-xl md:rounded-2xl overflow-hidden shadow-xl border border-gray-800 hover:border-accentGold/60 transition duration-300 flex flex-col justify-between h-full group">
-                                <div class="relative overflow-hidden h-44 sm:h-52 md:h-60 bg-black flex items-center justify-center cursor-pointer" onclick="openImageModal('${carKey}')">
-                                    <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300 group-hover:scale-105" title="اضغط لتكبير الصورة وتصفحها">
-                                    
-                                    ${imagesArray.length > 1 ? `
-                                        <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', -1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة السابقة">
-                                            <i class="fa-solid fa-chevron-right text-[10px] md:text-xs"></i>
-                                        </button>
-                                        <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', 1)" class="absolute left-1.5 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة التالية">
-                                            <i class="fa-solid fa-chevron-left text-[10px] md:text-xs"></i>
-                                        </button>
-                                        <span class="absolute bottom-1.5 left-1.5 bg-black/80 text-[10px] md:text-xs px-2 py-0.5 rounded-md text-accentGold font-bold z-10">
-                                            ${imgIdx + 1} /${imagesArray.length}
-                                        </span>
-                                    ` : ''}
-
-                                    <div class="absolute top-2 right-2 bg-darkBg/90 backdrop-blur-md text-accentGold px-2.5 py-1 rounded-full text-[11px] md:text-xs font-bold border border-gray-700 shadow z-10">
-                                        ${carPrice}
-                                    </div>
-                                    <div class="absolute top-2 left-2 bg-accentGold text-darkBg px-2 py-0.5 rounded text-[10px] md:text-xs font-extrabold shadow z-10">
-                                        ${carType}
-                                    </div>
-                                </div>
-                                <div class="p-3 md:p-6 flex-1 flex flex-col justify-between space-y-3">
-                                    <div>
-                                        <h3 class="text-base md:text-xl font-bold text-white group-hover:text-accentGold transition mb-1 line-clamp-1">${carName}</h3>
-                                        <p class="text-gray-400 text-xs md:text-sm line-clamp-2 leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية متاحة.'}</p>
-                                    </div>
-                                    <div class="space-y-2">
-                                        <a href="${targetPage}" class="w-full bg-cardBg hover:bg-gray-800 text-accentGold border border-accentGold/50 font-bold py-2 md:py-2.5 rounded-xl transition duration-300 text-center text-xs md:text-sm block shadow">
-                                            عرض التفاصيل الكاملة
-                                        </a>
-                                        <a href="https://wa.me/966573634794?text=${whatsappMsg}" target="_blank" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 md:py-2.5 rounded-xl transition duration-300 text-center text-xs md:text-sm flex items-center justify-center gap-1.5 shadow">
-                                            <i class="fa-brands fa-whatsapp text-sm md:text-base"></i> استفسر عبر واتساب
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                wrapper.innerHTML = html;
-
-                new Swiper(".myCarSlider", {
-                    slidesPerView: 2,
-                    spaceBetween: 10,
-                    loop: true,
-                    autoplay: {
-                        delay: 4000,
-                        disableOnInteraction: false,
-                    },
-                    pagination: {
-                        el: ".swiper-pagination",
-                        clickable: true,
-                    },
-                    breakpoints: {
-                        640: { slidesPerView: 2, spaceBetween: 16 },
-                        768: { slidesPerView: 2, spaceBetween: 20 },
-                        1024: { slidesPerView: 3, spaceBetween: 24 }
-                    }
-                });
+                renderCarsList(window.allCarsData);
 
             } catch (err) {
-                console.error("خطأ في جلب السلايدر:", err);
-                wrapper.innerHTML = '<div class="swiper-slide text-center text-red-400 py-12">حدث خطأ أثناء تحميل عروض السيارات.</div>';
+                console.error("خطأ في جلب السيارات:", err);
+                container.innerHTML = '<div class="text-center text-red-400 py-12">حدث خطأ أثناء تحميل عروض السيارات.</div>';
             }
         }
 
+        function renderCarsList(carsList) {
+            const container = document.getElementById('cars-vertical-list');
+            if (carsList.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-400 py-12 bg-cardBg rounded-2xl border border-gray-800"><p>لا توجد نتائج مطابقة لبحثك.</p></div>';
+                return;
+            }
+
+            let html = '';
+            carsList.forEach((car) => {
+                const carKey = car.firestoreId;
+                if (window.homeImageIndexes[carKey] === undefined) {
+                    window.homeImageIndexes[carKey] = 0;
+                }
+
+                const carName = car.name || 'سيارة بدون عنوان';
+                const carPrice = car.price ? car.price + ' ريال' : 'السعر عند الطلب';
+                const carType = car.type === 'used' ? 'مستعمل' : 'جديد';
+                const targetPage = car.type === 'used' ? 'used-cars.html' : 'new-cars.html';
+
+                let imagesArray = [];
+                if (Array.isArray(car.images) && car.images.length > 0) {
+                    imagesArray = car.images;
+                } else if (car.image) {
+                    imagesArray = [car.image];
+                } else {
+                    imagesArray = ['https://images.unsplash.com/photo-1553440569-bcc63803a83d'];
+                }
+
+                const imgIdx = window.homeImageIndexes[carKey];
+                const currentImg = imagesArray[imgIdx] || imagesArray[0];
+                const whatsappMsg = encodeURIComponent(`مرحباً، أرغب بالاستفسار عن السيارة: ${carName} بسعر ${carPrice}`);
+
+                html += `
+                    <div class="bg-cardBg rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-accentGold/60 transition duration-300 flex flex-col">
+                        <div class="relative overflow-hidden h-64 sm:h-80 md:h-96 bg-black flex items-center justify-center cursor-pointer" onclick="openImageModal('${carKey}')">
+                            <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300 hover:scale-105" title="اضغط لتكبير الصورة وتصفحها">
+                            
+                            ${imagesArray.length > 1 ? `
+                                <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', -1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-10 h-10 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة السابقة">
+                                    <i class="fa-solid fa-chevron-right text-sm"></i>
+                                </button>
+                                <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', 1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-10 h-10 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة التالية">
+                                    <i class="fa-solid fa-chevron-left text-sm"></i>
+                                </button>
+                                <span class="absolute bottom-3 left-3 bg-black/80 text-xs px-3 py-1 rounded-md text-accentGold font-bold z-10">
+                                    ${imgIdx + 1} /${imagesArray.length}
+                                </span>
+                            ` : ''}
+
+                            <div class="absolute top-3 right-3 bg-darkBg/90 backdrop-blur-md text-accentGold px-3.5 py-1.5 rounded-full text-xs font-bold border border-gray-700 shadow z-10">
+                                ${carPrice}
+                            </div>
+                            <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-3 py-1 rounded text-xs font-extrabold shadow z-10">
+                                ${carType}
+                            </div>
+                        </div>
+                        <div class="p-5 md:p-6 space-y-4 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl md:text-2xl font-bold text-white hover:text-accentGold transition mb-2">${carName}</h3>
+                                <p class="text-gray-400 text-sm md:text-base leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية متاحة.'}</p>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                                <a href="${targetPage}" class="w-full bg-cardBg hover:bg-gray-800 text-accentGold border border-accentGold/50 font-bold py-3 rounded-xl transition duration-300 text-center text-sm block shadow">
+                                    عرض التفاصيل الكاملة
+                                </a>
+                                <a href="https://wa.me/966573634794?text=${whatsappMsg}" target="_blank" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3 rounded-xl transition duration-300 text-center text-sm flex items-center justify-center gap-2 shadow">
+                                    <i class="fa-brands fa-whatsapp text-base"></i> استفسر عبر واتساب
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // دالة بحث ذكية (بالاسم، السعر، النوع، أو المواصفات)
+        window.filterCars = function() {
+            const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
+            if (!query) {
+                renderCarsList(window.allCarsData);
+                return;
+            }
+
+            const filtered = window.allCarsData.filter(car => {
+                const name = (car.name || '').toLowerCase();
+                const price = (car.price || '').toLowerCase();
+                const desc = (car.description || car.desc || '').toLowerCase();
+                const type = (car.type || '').toLowerCase();
+                const typeText = type === 'used' ? 'مستعمل' : 'جديد';
+
+                return name.includes(query) || price.includes(query) || desc.includes(query) || type.includes(query) || typeText.includes(query);
+            });
+
+            renderCarsList(filtered);
+        }
+
         window.changeHomeImage = function(carKey, direction) {
-            const car = window.homeCarsData[carKey];
+            let car = window.allCarsData.find(c => c.firestoreId === carKey);
             if (!car) return;
             let imagesArray = [];
             if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
@@ -335,14 +320,20 @@
                 if (current < 0) current = imagesArray.length - 1;
                 if (current >= imagesArray.length) current = 0;
                 window.homeImageIndexes[carKey] = current;
-                loadCarsSlider();
+                
+                // تحديث العرض الحالي مع الحفاظ على نتائج البحث إن وجدت
+                const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
+                if (query) {
+                    filterCars();
+                } else {
+                    renderCarsList(window.allCarsData);
+                }
             }
         }
 
-        // فتح نافذة التكبير مع أزرار التنقل إذا كان هناك أكثر من صورة
         window.openImageModal = function(carKey) {
             window.currentModalCarKey = carKey;
-            const car = window.homeCarsData[carKey];
+            let car = window.allCarsData.find(c => c.firestoreId === carKey);
             if (!car) return;
 
             let imagesArray = [];
@@ -372,10 +363,9 @@
             document.getElementById('imageModal').classList.remove('hidden');
         }
 
-        // التحكم بالتقليب داخل نافذة التكبير
         window.changeModalImage = function(direction) {
             const carKey = window.currentModalCarKey;
-            const car = window.homeCarsData[carKey];
+            let car = window.allCarsData.find(c => c.firestoreId === carKey);
             if (!car) return;
 
             let imagesArray = [];
@@ -392,7 +382,13 @@
 
                 document.getElementById('modalImg').src = imagesArray[current];
                 document.getElementById('modalCounter').innerText = `${current + 1} / ${imagesArray.length}`;
-                loadCarsSlider(); // تحديث البطاقة في الخلفية أيضاً
+                
+                const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
+                if (query) {
+                    filterCars();
+                } else {
+                    renderCarsList(window.allCarsData);
+                }
             }
         }
 
@@ -401,7 +397,7 @@
             window.currentModalCarKey = null;
         }
 
-        loadCarsSlider();
+        loadCarsVerticalList();
     </script>
 </body>
 </html>
