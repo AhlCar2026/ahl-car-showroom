@@ -118,7 +118,7 @@
         <div class="container mx-auto max-w-7xl">
             <div class="text-center mb-10">
                 <h2 class="text-2xl md:text-4xl font-bold text-accentGold mb-2">أحدث عروض المعرض الفورية</h2>
-                <p class="text-gray-400 text-xs md:text-base">تصفح السيارات المضافة حديثاً، اضغط على الصورة لتكبيرها، واضغط على زر (X) للرجوع للإعلان</p>
+                <p class="text-gray-400 text-xs md:text-base">تصفح السيارات المضافة حديثاً في المقدمة، اضغط على الصورة لتكبيرها، واضغط على زر (X) للرجوع للإعلان</p>
             </div>
 
             <div class="swiper myCarSlider pb-14">
@@ -198,11 +198,23 @@
                     return;
                 }
 
-                let html = '';
+                let carsList = [];
                 querySnapshot.forEach((docSnap) => {
                     const car = docSnap.data();
-                    const carKey = docSnap.id;
-                    car.firestoreId = carKey;
+                    car.firestoreId = docSnap.id;
+                    carsList.push(car);
+                });
+
+                // ترتيب السيارات لتظهر الإعلانات المضافة حديثاً في المقدمة
+                carsList.sort((a, b) => {
+                    const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                    const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                    return timeB - timeA;
+                });
+
+                let html = '';
+                carsList.forEach((car) => {
+                    const carKey = car.firestoreId;
                     window.homeCarsData[carKey] = car;
 
                     if (window.homeImageIndexes[carKey] === undefined) {
