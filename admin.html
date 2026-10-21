@@ -95,10 +95,10 @@
                 </form>
             </section>
 
-            <!-- قسم استعراض الإعلانات الحالية مفرقة في أقسامها الخاصة -->
+            <!-- قسم استعراض الإعلانات الحالية مفرقة في أقسامها الخاصة مع التحكم الشامل -->
             <section class="bg-cardBg border border-gray-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-8">
                 <h2 class="text-2xl font-bold text-accentGold flex items-center gap-2">
-                    <i class="fa-solid fa-car"></i>إدارة الإعلانات المعروضة في المعرض
+                    <i class="fa-solid fa-car"></i>إدارة وتحكم الإعلانات المعروضة (اضغط على الإعلان للتعديل والتحديث)
                 </h2>
                 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -108,7 +108,7 @@
                             <i class="fa-solid fa-car-burst"></i> السيارات الجديدة المتاحة
                         </h3>
                         <div id="admin-new-cars-list" class="space-y-3 max-h-[500px] overflow-y-auto pl-1">
-                            <div class="text-center text-gray-400 py-6">جاري التحميل...</div>
+                            <div class="text-center text-gray-500 py-6">جاري التحميل...</div>
                         </div>
                     </div>
 
@@ -118,7 +118,7 @@
                             <i class="fa-solid fa-rotate-left"></i> العربيات المستعملة المتاحة
                         </h3>
                         <div id="admin-used-cars-list" class="space-y-3 max-h-[500px] overflow-y-auto pl-1">
-                            <div class="text-center text-gray-400 py-6">جاري التحميل...</div>
+                            <div class="text-center text-gray-500 py-6">جاري التحميل...</div>
                         </div>
                     </div>
                 </div>
@@ -137,10 +137,74 @@
         </main>
     </div>
 
+    <!-- نافذة منبثقة (مودال) لتعديل تفاصيل الإعلان والصور -->
+    <div id="editModal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-cardBg border border-gray-700 rounded-2xl p-6 md:p-8 max-w-2xl w-full shadow-2xl space-y-6 my-8">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                <h3 class="text-xl font-bold text-accentGold flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square"></i> تعديل وتحديث بيانات الإعلان
+                </h3>
+                <button onclick="closeEditModal()" class="text-gray-400 hover:text-white text-2xl font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form id="editCarForm" onsubmit="saveEditedCar(event)" class="space-y-4">
+                <input type="hidden" id="editCarId">
+                <div>
+                    <label class="block text-gray-300 text-sm mb-1">عنوان السيارة / الموديل</label>
+                    <input type="text" id="editCarName" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-accentGold">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-300 text-sm mb-1">السعر (بالريال)</label>
+                        <input type="text" id="editCarPrice" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-accentGold">
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 text-sm mb-1">القسم</label>
+                        <select id="editCarType" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-accentGold">
+                            <option value="new">سيارات جديدة</option>
+                            <option value="used">سيارات مستعملة</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm mb-1">المواصفات والتفاصيل</label>
+                    <textarea id="editCarDesc" rows="3" required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-accentGold"></textarea>
+                </div>
+
+                <!-- عرض الصور الحالية مع زر حذف صورة محددة -->
+                <div>
+                    <label class="block text-gray-300 text-sm mb-2">صور الإعلان الحالية (اضغط على أي صورة لحذفها):</label>
+                    <div id="editImagesContainer" class="flex flex-wrap gap-3 bg-darkBg p-3 rounded-xl border border-gray-800 max-h-40 overflow-y-auto">
+                        <!-- يتم تعبئتها ديناميكياً -->
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-gray-300 text-sm mb-1">إضافة صور جديدة للإعلان (اختياري)</label>
+                    <input type="file" id="editNewImagesFiles" accept="image/*" multiple class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2 text-gray-300 file:ml-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-accentGold file:text-darkBg file:font-bold cursor-pointer text-sm">
+                </div>
+
+                <div class="flex items-center gap-3 pt-4 border-t border-gray-800">
+                    <button type="submit" id="saveEditBtn" class="flex-1 bg-accentGold text-darkBg font-bold py-3 rounded-xl hover:opacity-90 transition shadow-lg">
+                        حفظ التعديلات
+                    </button>
+                    <button type="button" onclick="bumpToTop(document.getElementById('editCarId').value)" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-3 rounded-xl transition shadow-lg flex items-center gap-1.5 text-sm" title="جعل الإعلان في المقدمة (أول المعرض)">
+                        <i class="fa-solid fa-arrow-up"></i> تحديث للأولوية
+                    </button>
+                    <button type="button" onclick="deleteCar(document.getElementById('editCarId').value); closeEditModal();" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-4 py-3 rounded-xl transition border border-red-800/50 text-sm">
+                        حذف الإعلان
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Firebase & Script Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAhvlqVZD9S9EwQJM3HGaN2W9es2EOtA-Q",
@@ -154,6 +218,9 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        // متغير لتخزين صور الإعلان الحالي أثناء التعديل
+        window.currentEditingImages = [];
 
         // التحقق من كلمة المرور المخفية 1111
         window.checkPassword = function(e) {
@@ -219,7 +286,7 @@
             }
         }
 
-        // دالة جلب وعرض الإعلانات في لوحة التحكم مفرقة حسب القسم
+        // دالة جلب وعرض الإعلانات في لوحة التحكم
         async function loadAdminCars() {
             const newCarsList = document.getElementById('admin-new-cars-list');
             const usedCarsList = document.getElementById('admin-used-cars-list');
@@ -256,17 +323,17 @@
                     const isUsed = car.type === 'used';
 
                     const itemHtml = `
-                        <div class="bg-cardBg border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-gray-700 transition">
+                        <div onclick="openEditModal('${carId}')" class="bg-cardBg border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-accentGold/60 cursor-pointer transition group">
                             <div class="flex items-center gap-3">
                                 <img src="${carImg}" alt="${carName}" class="w-14 h-14 object-cover rounded-lg border border-gray-700">
                                 <div>
-                                    <h4 class="font-bold text-white text-sm line-clamp-1">${carName}</h4>
+                                    <h4 class="font-bold text-white text-sm line-clamp-1 group-hover:text-accentGold transition">${carName}</h4>
                                     <span class="text-accentGold font-bold text-xs">${carPrice}</span>
                                 </div>
                             </div>
-                            <button onclick="deleteCar('${carId}')" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-3 py-2 rounded-lg text-xs transition border border-red-800/50 flex items-center gap-1" title="حذف الإعلان">
-                                <i class="fa-solid fa-trash"></i> حذف
-                            </button>
+                            <span class="text-xs bg-darkBg text-gray-300 px-2.5 py-1.5 rounded-lg border border-gray-700 flex items-center gap-1">
+                                <i class="fa-solid fa-pen text-[10px]"></i> تعديل
+                            </span>
                         </div>
                     `;
 
@@ -284,6 +351,127 @@
                 console.error(err);
                 newCarsList.innerHTML = '<div class="text-center text-red-400 py-4">خطأ في التحميل</div>';
                 usedCarsList.innerHTML = '<div class="text-center text-red-400 py-4">خطأ في التحميل</div>';
+            }
+        }
+
+        // فتح نافذة التعديل للإعلان عند الضغط عليه
+        window.openEditModal = async function(id) {
+            try {
+                const docRef = doc(db, "cars", id);
+                const docSnap = await getDoc(docRef);
+                if (!docSnap.exists()) return;
+
+                const car = docSnap.data();
+                document.getElementById('editCarId').value = id;
+                document.getElementById('editCarName').value = car.name || '';
+                document.getElementById('editCarPrice').value = car.price || '';
+                document.getElementById('editCarType').value = car.type || 'new';
+                document.getElementById('editCarDesc').value = car.description || car.desc || '';
+
+                window.currentEditingImages = [];
+                if (Array.isArray(car.images) && car.images.length > 0) {
+                    window.currentEditingImages = [...car.images];
+                } else if (car.image) {
+                    window.currentEditingImages = [car.image];
+                }
+
+                renderEditImagesList();
+                document.getElementById('editModal').classList.remove('hidden');
+            } catch (e) {
+                console.error(e);
+                alert('حدث خطأ أثناء جلب بيانات الإعلان.');
+            }
+        }
+
+        window.closeEditModal = function() {
+            document.getElementById('editModal').classList.add('hidden');
+            document.getElementById('editNewImagesFiles').value = '';
+        }
+
+        function renderEditImagesList() {
+            const container = document.getElementById('editImagesContainer');
+            if (window.currentEditingImages.length === 0) {
+                container.innerHTML = '<span class="text-gray-500 text-xs">لا توجد صور حالية.</span>';
+                return;
+            }
+
+            let html = '';
+            window.currentEditingImages.forEach((imgSrc, idx) => {
+                html += `
+                    <div class="relative group w-16 h-16 bg-black rounded-lg overflow-hidden border border-gray-700">
+                        <img src="${imgSrc}" class="w-full h-full object-cover">
+                        <button type="button" onclick="removeEditingImage(${idx})" class="absolute inset-0 bg-red-600/80 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition text-xs font-bold" title="حذف الصورة">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        window.removeEditingImage = function(idx) {
+            if (window.currentEditingImages.length <= 1) {
+                alert('يجب ألا تخلوا السيارة من الصور تماماً، أضف صورة جديدة قبل حذف الأخيرة.');
+                return;
+            }
+            window.currentEditingImages.splice(idx, 1);
+            renderEditImagesList();
+        }
+
+        window.saveEditedCar = async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('editCarId').value;
+            const btn = document.getElementById('saveEditBtn');
+            btn.disabled = true;
+            btn.innerText = 'جاري الحفظ...';
+
+            const name = document.getElementById('editCarName').value;
+            const price = document.getElementById('editCarPrice').value;
+            const type = document.getElementById('editCarType').value;
+            const description = document.getElementById('editCarDesc').value;
+            const newFiles = document.getElementById('editNewImagesFiles').files;
+
+            try {
+                let finalImages = [...window.currentEditingImages];
+                for (let i = 0; i < newFiles.length; i++) {
+                    const base64Img = await convertImageToBase64(newFiles[i]);
+                    finalImages.push(base64Img);
+                }
+
+                const docRef = doc(db, "cars", id);
+                await updateDoc(docRef, {
+                    name,
+                    price,
+                    type,
+                    description,
+                    images: finalImages
+                });
+
+                alert('تم تحديث وتعديل الإعلان بنجاح!');
+                closeEditModal();
+                loadAdminCars();
+            } catch (err) {
+                console.error(err);
+                alert('حدث خطأ أثناء حفظ التعديلات.');
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'حفظ التعديلات';
+            }
+        }
+
+        // دالة جعل الإعلان في المقدمة (تحديث الأولوية)
+        window.bumpToTop = async function(id) {
+            try {
+                const docRef = doc(db, "cars", id);
+                await updateDoc(docRef, {
+                    createdAt: new Date().toISOString()
+                });
+                alert('تم تحديث الإعلان ونقله إلى مقدمة المعرض (الأولوية) بنجاح!');
+                closeEditModal();
+                loadAdminCars();
+            } catch (e) {
+                console.error(e);
+                alert('فشل في تحديث أولوية الإعلان.');
             }
         }
 
