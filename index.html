@@ -49,7 +49,7 @@
         </div>
     </header>
 
-    <!-- Hero Section مع خلفية سيارات متحركة -->
+    <!-- Hero Section -->
     <section class="relative py-20 md:py-32 text-center overflow-hidden border-b border-gray-800">
         <div class="container mx-auto max-w-5xl relative z-10 px-4">
             <span class="bg-accentGold/20 text-accentGold border border-accentGold/30 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase inline-block mb-4 shadow-lg backdrop-blur-md">
@@ -88,25 +88,25 @@
         </div>
     </section>
 
-    <!-- قسم المعرض والبحث الذكي (عرض عمودي تحت بعض) -->
-    <section id="featured-showroom" class="py-10 px-4 bg-gradient-to-b from-darkBg to-cardBg/30">
-        <div class="container mx-auto max-w-xl space-y-6">
+    <!-- قسم المعرض والبحث الذكي (عرض إعلانين جنب بعض) -->
+    <section id="featured-showroom" class="py-10 px-2 md:px-4 bg-gradient-to-b from-darkBg to-cardBg/30">
+        <div class="container mx-auto max-w-6xl space-y-8">
             <div class="text-center space-y-2">
-                <h2 class="text-2xl md:text-3xl font-bold text-accentGold">أحدث عروض المعرض الفورية</h2>
-                <p class="text-gray-400 text-xs md:text-sm">تصفح السيارات المعروضة، أو استخدم بحث الذكاء الاصطناعي للعثور على سيارتك فوراً</p>
+                <h2 class="text-2xl md:text-4xl font-bold text-accentGold">أحدث عروض المعرض الفورية</h2>
+                <p class="text-gray-400 text-xs md:text-base">تصفح السيارات المعروضة، أو استخدم بحث الذكاء الاصطناعي للعثور على سيارتك فوراً</p>
             </div>
 
             <!-- خانة البحث الذكية -->
-            <div class="relative">
+            <div class="max-w-xl mx-auto relative">
                 <span class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-accentGold">
                     <i class="fa-solid fa-wand-magic-sparkles text-base"></i>
                 </span>
                 <input type="text" id="aiSearchInput" oninput="filterCars()" placeholder="ابحث بالذكاء الاصطناعي (اسم السيارة، السعر، النوع، التفاصيل...)" class="w-full bg-cardBg border border-gray-700 rounded-2xl pr-11 pl-4 py-3.5 text-white placeholder-gray-400 focus:outline-none focus:border-accentGold shadow-xl text-xs md:text-sm">
             </div>
 
-            <!-- قائمة الإعلانات المرتبة عمودياً تحت بعضها -->
-            <div id="cars-vertical-list" class="space-y-6">
-                <div class="text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800">
+            <!-- قائمة الإعلانات بنظام إعلانين جنب بعض (شبكة) -->
+            <div id="cars-grid-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+                <div class="text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800 col-span-full">
                     <i class="fa-solid fa-spinner fa-spin text-accentGold text-3xl mb-3"></i>
                     <p>جاري تحميل أسطول السيارات من السحابة...</p>
                 </div>
@@ -172,12 +172,12 @@
         window.allCarsData = [];
         window.currentModalCarKey = null;
 
-        async function loadCarsVerticalList() {
-            const container = document.getElementById('cars-vertical-list');
+        async function loadCarsGridList() {
+            const container = document.getElementById('cars-grid-list');
             try {
                 const querySnapshot = await getDocs(collection(db, "cars"));
                 if (querySnapshot.empty) {
-                    container.innerHTML = '<div class="text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800"><p class="text-lg">لا توجد سيارات مضافة حالياً في المعرض.</p></div>';
+                    container.innerHTML = '<div class="text-center text-gray-400 py-16 bg-cardBg rounded-2xl border border-gray-800 col-span-full"><p class="text-lg">لا توجد سيارات مضافة حالياً في المعرض.</p></div>';
                     return;
                 }
 
@@ -195,18 +195,18 @@
                     return timeB - timeA;
                 });
 
-                renderCarsList(window.allCarsData);
+                renderCarsGrid(window.allCarsData);
 
             } catch (err) {
                 console.error("خطأ في جلب السيارات:", err);
-                container.innerHTML = '<div class="text-center text-red-400 py-12">حدث خطأ أثناء تحميل عروض السيارات.</div>';
+                container.innerHTML = '<div class="text-center text-red-400 py-12 col-span-full">حدث خطأ أثناء تحميل عروض السيارات.</div>';
             }
         }
 
-        function renderCarsList(carsList) {
-            const container = document.getElementById('cars-vertical-list');
+        function renderCarsGrid(carsList) {
+            const container = document.getElementById('cars-grid-list');
             if (carsList.length === 0) {
-                container.innerHTML = '<div class="text-center text-gray-400 py-12 bg-cardBg rounded-2xl border border-gray-800"><p>لا توجد نتائج مطابقة لبحثك.</p></div>';
+                container.innerHTML = '<div class="text-center text-gray-400 py-12 bg-cardBg rounded-2xl border border-gray-800 col-span-full"><p>لا توجد نتائج مطابقة لبحثك.</p></div>';
                 return;
             }
 
@@ -236,40 +236,40 @@
                 const whatsappMsg = encodeURIComponent(`مرحباً، أرغب بالاستفسار عن السيارة: ${carName} بسعر ${carPrice}`);
 
                 html += `
-                    <div class="bg-cardBg rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-accentGold/60 transition duration-300 flex flex-col">
-                        <div class="relative overflow-hidden h-64 sm:h-72 md:h-80 bg-black flex items-center justify-center cursor-pointer" onclick="openImageModal('${carKey}')">
-                            <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300 hover:scale-105" title="اضغط لتكبير الصورة وتصفحها">
+                    <div class="bg-cardBg rounded-xl md:rounded-2xl overflow-hidden shadow-xl border border-gray-800 hover:border-accentGold/50 transition duration-300 flex flex-col justify-between group">
+                        <div class="relative overflow-hidden h-40 sm:h-52 md:h-60 bg-black flex items-center justify-center cursor-pointer" onclick="openImageModal('${carKey}')">
+                            <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300 group-hover:scale-105" title="اضغط لتكبير الصورة وتصفحها">
                             
                             ${imagesArray.length > 1 ? `
-                                <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', -1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة السابقة">
-                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', -1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة السابقة">
+                                    <i class="fa-solid fa-chevron-right text-[10px] md:text-xs"></i>
                                 </button>
-                                <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', 1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة التالية">
-                                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                                <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', 1)" class="absolute left-1.5 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة التالية">
+                                    <i class="fa-solid fa-chevron-left text-[10px] md:text-xs"></i>
                                 </button>
-                                <span class="absolute bottom-3 left-3 bg-black/80 text-xs px-2.5 py-1 rounded-md text-accentGold font-bold z-10">
+                                <span class="absolute bottom-1.5 left-1.5 bg-black/80 text-[10px] md:text-xs px-2 py-0.5 rounded-md text-accentGold font-bold z-10">
                                     ${imgIdx + 1} /${imagesArray.length}
                                 </span>
                             ` : ''}
 
-                            <div class="absolute top-3 right-3 bg-darkBg/90 backdrop-blur-md text-accentGold px-3 py-1 rounded-full text-xs font-bold border border-gray-700 shadow z-10">
+                            <div class="absolute top-2 right-2 bg-darkBg/90 backdrop-blur-md text-accentGold px-2.5 py-1 rounded-full text-[11px] md:text-xs font-bold border border-gray-700 shadow z-10">
                                 ${carPrice}
                             </div>
-                            <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-2.5 py-0.5 rounded text-xs font-extrabold shadow z-10">
+                            <div class="absolute top-2 left-2 bg-accentGold text-darkBg px-2 py-0.5 rounded text-[10px] md:text-xs font-extrabold shadow z-10">
                                 ${carType}
                             </div>
                         </div>
-                        <div class="p-4 md:p-5 space-y-3 flex-1 flex flex-col justify-between">
+                        <div class="p-3 md:p-5 flex-1 flex flex-col justify-between space-y-3">
                             <div>
-                                <h3 class="text-lg md:text-xl font-bold text-white hover:text-accentGold transition mb-1.5 line-clamp-1">${carName}</h3>
-                                <p class="text-gray-400 text-xs md:text-sm leading-relaxed line-clamp-2">${car.description || car.desc || 'لا توجد تفاصيل إضافية متاحة.'}</p>
+                                <h3 class="text-sm md:text-xl font-bold text-white group-hover:text-accentGold transition mb-1 line-clamp-1">${carName}</h3>
+                                <p class="text-gray-400 text-xs md:text-sm line-clamp-2 leading-relaxed">${car.description || car.desc || 'لا توجد تفاصيل إضافية متاحة.'}</p>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
-                                <a href="${targetPage}" class="w-full bg-cardBg hover:bg-gray-800 text-accentGold border border-accentGold/50 font-bold py-2.5 rounded-xl transition duration-300 text-center text-xs md:text-sm block shadow">
+                            <div class="space-y-2">
+                                <a href="${targetPage}" class="w-full bg-cardBg hover:bg-gray-800 text-accentGold border border-accentGold/50 font-bold py-2 md:py-2.5 rounded-xl transition duration-300 text-center text-xs md:text-sm block shadow">
                                     عرض التفاصيل الكاملة
                                 </a>
-                                <a href="https://wa.me/966573634794?text=${whatsappMsg}" target="_blank" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2.5 rounded-xl transition duration-300 text-center text-xs md:text-sm flex items-center justify-center gap-1.5 shadow">
-                                    <i class="fa-brands fa-whatsapp text-base"></i> استفسر عبر واتساب
+                                <a href="https://wa.me/966573634794?text=${whatsappMsg}" target="_blank" class="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 md:py-2.5 rounded-xl transition duration-300 text-center text-xs md:text-sm flex items-center justify-center gap-1.5 shadow">
+                                    <i class="fa-brands fa-whatsapp text-sm md:text-base"></i> استفسر عبر واتساب
                                 </a>
                             </div>
                         </div>
@@ -283,7 +283,7 @@
         window.filterCars = function() {
             const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
             if (!query) {
-                renderCarsList(window.allCarsData);
+                renderCarsGrid(window.allCarsData);
                 return;
             }
 
@@ -297,7 +297,7 @@
                 return name.includes(query) || price.includes(query) || desc.includes(query) || type.includes(query) || typeText.includes(query);
             });
 
-            renderCarsList(filtered);
+            renderCarsGrid(filtered);
         }
 
         window.changeHomeImage = function(carKey, direction) {
@@ -319,7 +319,7 @@
                 if (query) {
                     filterCars();
                 } else {
-                    renderCarsList(window.allCarsData);
+                    renderCarsGrid(window.allCarsData);
                 }
             }
         }
@@ -380,7 +380,7 @@
                 if (query) {
                     filterCars();
                 } else {
-                    renderCarsList(window.allCarsData);
+                    renderCarsGrid(window.allCarsData);
                 }
             }
         }
@@ -390,7 +390,7 @@
             window.currentModalCarKey = null;
         }
 
-        loadCarsVerticalList();
+        loadCarsGridList();
     </script>
 </body>
 </html>
