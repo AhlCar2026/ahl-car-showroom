@@ -56,13 +56,22 @@
         </div>
     </main>
 
-    <!-- نافذة مكبرة لعرض الصورة بالكامل مع زر إغلاق (X) واضح للرجوع للإعلان -->
+    <!-- نافذة مكبرة لعرض الصورة بالكامل مع أزرار التنقل وزر إغلاق (X) -->
     <div id="imageModal" class="fixed inset-0 bg-black/95 z-50 hidden flex items-center justify-center p-2">
         <button onclick="closeImageModal()" class="absolute top-4 left-4 z-50 text-darkBg bg-accentGold w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold shadow-2xl hover:scale-110 transition border-2 border-white" title="إغلاق والرجوع للإعلان">
             <i class="fa-solid fa-xmark"></i>
         </button>
         <div class="relative w-full h-full flex items-center justify-center p-2" onclick="closeImageModal()">
             <img id="modalImg" src="" alt="صورة مكبرة" class="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl border border-gray-700" onclick="event.stopPropagation()">
+            
+            <!-- أزرار التنقل داخل نافذة التكبير -->
+            <button id="modalPrevBtn" onclick="event.stopPropagation(); changeModalImage(-1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-accentGold hover:text-darkBg text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-2xl border border-gray-600 z-50 hidden" title="الصورة السابقة">
+                <i class="fa-solid fa-chevron-right text-lg"></i>
+            </button>
+            <button id="modalNextBtn" onclick="event.stopPropagation(); changeModalImage(1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/80 hover:bg-accentGold hover:text-darkBg text-white w-12 h-12 rounded-full flex items-center justify-center transition shadow-2xl border border-gray-600 z-50 hidden" title="الصورة التالية">
+                <i class="fa-solid fa-chevron-left text-lg"></i>
+            </button>
+            <span id="modalCounter" class="absolute bottom-6 bg-black/80 text-accentGold px-4 py-1.5 rounded-full text-sm font-bold border border-gray-700 z-50 hidden"></span>
         </div>
     </div>
 
@@ -94,6 +103,7 @@
 
         window.currentImageIndexes = {};
         window.carsDataStore = {};
+        window.currentModalCarKey = null;
 
         async function loadUsedCars() {
             const grid = document.getElementById('cars-grid');
@@ -151,8 +161,8 @@
 
                     grid.innerHTML += `
                         <div class="bg-cardBg rounded-xl md:rounded-2xl overflow-hidden border border-gray-800 shadow-xl flex flex-col justify-between group hover:border-accentGold/50 transition">
-                            <div class="relative h-40 sm:h-52 md:h-60 bg-black flex items-center justify-center overflow-hidden cursor-pointer" onclick="openImageModal('${currentImg}')">
-                                <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300 group-hover:scale-105" title="اضغط لتكبير الصورة">
+                            <div class="relative h-40 sm:h-52 md:h-60 bg-black flex items-center justify-center overflow-hidden cursor-pointer" onclick="openImageModal('${carKey}')">
+                                <img src="${currentImg}" alt="${carName}" class="w-full h-full object-contain transition duration-300 group-hover:scale-105" title="اضغط لتكبير الصورة وتصفحها">
                                 ${imagesArray.length > 1 ? `
                                     <button onclick="event.stopPropagation(); changeImage('${carKey}', -1)" class="absolute right-1.5 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-black text-white w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center transition shadow z-10" title="الصورة السابقة">
                                         <i class="fa-solid fa-chevron-right text-[10px] md:text-xs"></i>
@@ -211,16 +221,64 @@
             }
         }
 
-        window.openImageModal = function(imgSrc) {
-            const modal = document.getElementById('imageModal');
+        window.openImageModal = function(carKey) {
+            window.currentModalCarKey = carKey;
+            const car = window.carsDataStore[carKey];
+            if (!car) return;
+
+            let imagesArray = [];
+            if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
+            else if (car.image) imagesArray = [car.image];
+            else imagesArray = ['https://via.placeholder.com/600x400'];
+
+            const currentIdx = window.currentImageIndexes[carKey] || 0;
             const modalImg = document.getElementById('modalImg');
-            modalImg.src = imgSrc;
-            modal.classList.remove('hidden');
+            modalImg.src = imagesArray[currentIdx];
+
+            const prevBtn = document.getElementById('modalPrevBtn');
+            const nextBtn = document.getElementById('modalNextBtn');
+            const counter = document.getElementById('modalCounter');
+
+            if (imagesArray.length > 1) {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                counter.classList.remove('hidden');
+                counter.innerText = `${currentIdx + 1} / ${imagesArray.length}`;
+            } else {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+                counter.classList.add('hidden');
+            }
+
+            document.getElementById('imageModal').classList.remove('hidden');
+        }
+
+        window.changeModalImage = function(direction) {
+            const carKey = window.currentModalCarKey;
+            const car = window.carsDataStore[carKey];
+            if (!car) return;
+
+            let imagesArray = [];
+            if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
+            else if (car.image) imagesArray = [car.image];
+            else imagesArray = ['https://via.placeholder.com/600x400'];
+
+            if (imagesArray.length > 1) {
+                let current = window.currentImageIndexes[carKey] || 0;
+                current += direction;
+                if (current < 0) current = imagesArray.length - 1;
+                if (current >= imagesArray.length) current = 0;
+                window.currentImageIndexes[carKey] = current;
+
+                document.getElementById('modalImg').src = imagesArray[current];
+                document.getElementById('modalCounter').innerText = `${current + 1} / ${imagesArray.length}`;
+                loadUsedCars();
+            }
         }
 
         window.closeImageModal = function() {
-            const modal = document.getElementById('imageModal');
-            modal.classList.add('hidden');
+            document.getElementById('imageModal').classList.add('hidden');
+            window.currentModalCarKey = null;
         }
 
         loadUsedCars();
