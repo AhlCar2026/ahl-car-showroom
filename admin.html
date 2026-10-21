@@ -95,6 +95,35 @@
                 </form>
             </section>
 
+            <!-- قسم استعراض الإعلانات الحالية مفرقة في أقسامها الخاصة -->
+            <section class="bg-cardBg border border-gray-800 rounded-2xl p-6 md:p-8 shadow-xl space-y-8">
+                <h2 class="text-2xl font-bold text-accentGold flex items-center gap-2">
+                    <i class="fa-solid fa-car"></i>إدارة الإعلانات المعروضة في المعرض
+                </h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- قسم السيارات الجديدة -->
+                    <div class="bg-darkBg/60 border border-gray-800 rounded-xl p-5 space-y-4">
+                        <h3 class="text-xl font-bold text-accentGold flex items-center gap-2 border-b border-gray-800 pb-3">
+                            <i class="fa-solid fa-car-burst"></i> السيارات الجديدة المتاحة
+                        </h3>
+                        <div id="admin-new-cars-list" class="space-y-3 max-h-[500px] overflow-y-auto pl-1">
+                            <div class="text-center text-gray-400 py-6">جاري التحميل...</div>
+                        </div>
+                    </div>
+
+                    <!-- قسم السيارات المستعملة -->
+                    <div class="bg-darkBg/60 border border-gray-800 rounded-xl p-5 space-y-4">
+                        <h3 class="text-xl font-bold text-accentGold flex items-center gap-2 border-b border-gray-800 pb-3">
+                            <i class="fa-solid fa-rotate-left"></i> العربيات المستعملة المتاحة
+                        </h3>
+                        <div id="admin-used-cars-list" class="space-y-3 max-h-[500px] overflow-y-auto pl-1">
+                            <div class="text-center text-gray-400 py-6">جاري التحميل...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- قسم إدارة الطلبات والاستفسارات الواردة -->
             <section class="bg-cardBg border border-gray-800 rounded-2xl p-6 md:p-8 shadow-xl">
                 <h2 class="text-2xl font-bold text-accentGold mb-6 flex items-center gap-2">
@@ -133,6 +162,7 @@
             if (pwd === '1111') {
                 document.getElementById('authModal').classList.add('hidden');
                 document.getElementById('adminContent').classList.remove('hidden');
+                loadAdminCars();
                 loadOrders();
             } else {
                 alert('كلمة المرور غير صحيحة!');
@@ -179,12 +209,94 @@
 
                 alert('تمت إضافة السيارة ونشرها في قسمها بالموقع فوراً بنجاح!');
                 document.getElementById('addCarForm').reset();
+                loadAdminCars();
             } catch (err) {
                 console.error(err);
                 alert('حدث خطأ أثناء رفع الصور، تأكد من حجم الملفات.');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للقسم المخصص';
+            }
+        }
+
+        // دالة جلب وعرض الإعلانات في لوحة التحكم مفرقة حسب القسم
+        async function loadAdminCars() {
+            const newCarsList = document.getElementById('admin-new-cars-list');
+            const usedCarsList = document.getElementById('admin-used-cars-list');
+            
+            try {
+                const querySnapshot = await getDocs(collection(db, "cars"));
+                let newHtml = '';
+                let usedHtml = '';
+
+                let carsList = [];
+                querySnapshot.forEach(docSnap => {
+                    const car = docSnap.data();
+                    car.firestoreId = docSnap.id;
+                    carsList.push(car);
+                });
+
+                carsList.sort((a, b) => {
+                    const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                    const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                    return timeB - timeA;
+                });
+
+                if (carsList.length === 0) {
+                    newCarsList.innerHTML = '<div class="text-center text-gray-500 py-4">لا توجد إعلانات جديدة</div>';
+                    usedCarsList.innerHTML = '<div class="text-center text-gray-500 py-4">لا توجد إعلانات مستعملة</div>';
+                    return;
+                }
+
+                carsList.forEach(car => {
+                    const carId = car.firestoreId;
+                    const carName = car.name || 'سيارة بدون عنوان';
+                    const carPrice = car.price ? car.price + ' ريال' : 'السعر عند الطلب';
+                    const carImg = (Array.isArray(car.images) && car.images[0]) ? car.images[0] : (car.image || 'https://via.placeholder.com/150');
+                    const isUsed = car.type === 'used';
+
+                    const itemHtml = `
+                        <div class="bg-cardBg border border-gray-800 rounded-xl p-3 flex items-center justify-between gap-3 hover:border-gray-700 transition">
+                            <div class="flex items-center gap-3">
+                                <img src="${carImg}" alt="${carName}" class="w-14 h-14 object-cover rounded-lg border border-gray-700">
+                                <div>
+                                    <h4 class="font-bold text-white text-sm line-clamp-1">${carName}</h4>
+                                    <span class="text-accentGold font-bold text-xs">${carPrice}</span>
+                                </div>
+                            </div>
+                            <button onclick="deleteCar('${carId}')" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-3 py-2 rounded-lg text-xs transition border border-red-800/50 flex items-center gap-1" title="حذف الإعلان">
+                                <i class="fa-solid fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    `;
+
+                    if (isUsed) {
+                        usedHtml += itemHtml;
+                    } else {
+                        newHtml += itemHtml;
+                    }
+                });
+
+                newCarsList.innerHTML = newHtml || '<div class="text-center text-gray-500 py-4">لا توجد إعلانات جديدة</div>';
+                usedCarsList.innerHTML = usedHtml || '<div class="text-center text-gray-500 py-4">لا توجد إعلانات مستعملة</div>';
+
+            } catch (err) {
+                console.error(err);
+                newCarsList.innerHTML = '<div class="text-center text-red-400 py-4">خطأ في التحميل</div>';
+                usedCarsList.innerHTML = '<div class="text-center text-red-400 py-4">خطأ في التحميل</div>';
+            }
+        }
+
+        window.deleteCar = async function(id) {
+            if (confirm('هل أنت متأكد من حذف هذا الإعلان نهائياً من المعرض؟')) {
+                try {
+                    await deleteDoc(doc(db, "cars", id));
+                    alert('تم حذف الإعلان بنجاح.');
+                    loadAdminCars();
+                } catch (e) {
+                    console.error(e);
+                    alert('فشل في حذف الإعلان.');
+                }
             }
         }
 
