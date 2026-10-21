@@ -58,7 +58,7 @@
 
         <main class="container mx-auto px-4 py-8 max-w-6xl space-y-12">
 
-            <!-- قسم إضافة سيارة جديدة مع اختيار صور متعددة -->
+            <!-- قسم إضافة سيارة جديدة مع ضغط الصور تلقائياً -->
             <section class="bg-cardBg border border-gray-800 rounded-2xl p-6 md:p-8 shadow-xl">
                 <h2 class="text-2xl font-bold text-accentGold mb-6 flex items-center gap-2">
                     <i class="fa-solid fa-circle-plus"></i>إضافة سيارة أو إعلان جديد للمعرض (صور متعددة)
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-gray-300 text-sm mb-2">رفع صور السيارة (اختر صورة واحدة أو عدة صور معاً 5، 10 أو أكثر)</label>
+                        <label class="block text-gray-300 text-sm mb-2">رفع صور السيارة (اختر صور متعددة، سيتم ضغطها تلقائياً)</label>
                         <input type="file" id="carImagesFiles" accept="image/*" multiple required class="w-full bg-darkBg border border-gray-700 rounded-xl px-4 py-3 text-gray-300 file:ml-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-accentGold file:text-darkBg file:font-bold hover:file:opacity-90 cursor-pointer">
                     </div>
                     <div>
@@ -182,7 +182,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-gray-300 text-sm mb-1">إضافة صور جديدة للإعلان (اختياري)</label>
+                    <label class="block text-gray-300 text-sm mb-1">إضافة صور جديدة للإعلان (سيتم ضغطها تلقائياً)</label>
                     <input type="file" id="editNewImagesFiles" accept="image/*" multiple class="w-full bg-darkBg border border-gray-700 rounded-xl px-3 py-2 text-gray-300 file:ml-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-accentGold file:text-darkBg file:font-bold cursor-pointer text-sm">
                 </div>
 
@@ -219,7 +219,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // متغير لتخزين صور الإعلان الحالي أثناء التعديل
         window.currentEditingImages = [];
 
         // التحقق من كلمة المرور المخفية 1111
@@ -237,11 +236,43 @@
             }
         }
 
-        const convertImageToBase64 = (file) => {
+        // دالة لضغط الصور تلقائياً لمنع تجاوز حجم قاعدة البيانات
+        const compressImage = (file) => {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 900;
+                        const MAX_HEIGHT = 900;
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_HEIGHT) {
+                                width *= MAX_HEIGHT / height;
+                                height = MAX_HEIGHT;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        // ضغط الجودة لـ 75% لضمان حجم صغير جداً وثبات الأداء
+                        resolve(canvas.toDataURL('image/jpeg', 0.75));
+                    };
+                    img.onerror = (error) => reject(error);
+                };
                 reader.onerror = (error) => reject(error);
             });
         };
@@ -250,7 +281,7 @@
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin ml-2"></i>جاري معالجة الصور والنشر...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin ml-2"></i>جاري ضغط الصور والنشر...';
 
             const name = document.getElementById('carName').value;
             const price = document.getElementById('carPrice').value;
@@ -261,8 +292,8 @@
             try {
                 let imagesArray = [];
                 for (let i = 0; i < filesInput.length; i++) {
-                    const base64Img = await convertImageToBase64(filesInput[i]);
-                    imagesArray.push(base64Img);
+                    const compressedImg = await compressImage(filesInput[i]);
+                    imagesArray.push(compressedImg);
                 }
 
                 await addDoc(collection(db, "cars"), {
@@ -279,14 +310,13 @@
                 loadAdminCars();
             } catch (err) {
                 console.error(err);
-                alert('حدث خطأ أثناء رفع الصور، تأكد من حجم الملفات.');
+                alert('حدث خطأ أثناء رفع الصور، قد يكون حجم الصور الإجمالي كبيراً جداً.');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i>نشر السيارة وإضافتها فوراً للقسم المخصص';
             }
         }
 
-        // دالة جلب وعرض الإعلانات في لوحة التحكم
         async function loadAdminCars() {
             const newCarsList = document.getElementById('admin-new-cars-list');
             const usedCarsList = document.getElementById('admin-used-cars-list');
@@ -354,7 +384,6 @@
             }
         }
 
-        // فتح نافذة التعديل للإعلان عند الضغط عليه
         window.openEditModal = async function(id) {
             try {
                 const docRef = doc(db, "cars", id);
@@ -423,7 +452,7 @@
             const id = document.getElementById('editCarId').value;
             const btn = document.getElementById('saveEditBtn');
             btn.disabled = true;
-            btn.innerText = 'جاري الحفظ...';
+            btn.innerText = 'جاري الضغط والحفظ...';
 
             const name = document.getElementById('editCarName').value;
             const price = document.getElementById('editCarPrice').value;
@@ -434,8 +463,8 @@
             try {
                 let finalImages = [...window.currentEditingImages];
                 for (let i = 0; i < newFiles.length; i++) {
-                    const base64Img = await convertImageToBase64(newFiles[i]);
-                    finalImages.push(base64Img);
+                    const compressedImg = await compressImage(newFiles[i]);
+                    finalImages.push(compressedImg);
                 }
 
                 const docRef = doc(db, "cars", id);
@@ -452,14 +481,13 @@
                 loadAdminCars();
             } catch (err) {
                 console.error(err);
-                alert('حدث خطأ أثناء حفظ التعديلات.');
+                alert('حدث خطأ أثناء حفظ التعديلات، قد يكون حجم الصور كبيراً جداً.');
             } finally {
                 btn.disabled = false;
                 btn.innerText = 'حفظ التعديلات';
             }
         }
 
-        // دالة جعل الإعلان في المقدمة (تحديث الأولوية)
         window.bumpToTop = async function(id) {
             try {
                 const docRef = doc(db, "cars", id);
