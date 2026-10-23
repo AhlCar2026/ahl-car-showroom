@@ -104,7 +104,7 @@
         </div>
     </section>
 
-    <!-- قسم شركاء النجاح والبنوك المعتمدة (2 فوق و2 تحت على الجوال، و4 جنب بعض على الكمبيوتر) -->
+    <!-- قسم شركاء النجاح والبنوك المعتمدة -->
     <section class="py-12 bg-cardBg/40 border-y border-gray-800 px-4">
         <div class="container mx-auto max-w-6xl text-center space-y-6">
             <div class="space-y-1">
@@ -137,7 +137,7 @@
                 <!-- راية للتمويل -->
                 <div class="bg-cardBg border border-gray-800 p-4 md:p-5 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-lg group">
                     <div class="w-16 h-12 bg-white rounded-xl flex items-center justify-center p-1.5 shadow group-hover:scale-105 transition">
-                        <img src="raya.png.jpeg" alt="راية للتمويل" class="max-h-full max-w-full object-contain">
+                        <img src="raya.jpeg" alt="راية للتمويل" class="max-h-full max-w-full object-contain">
                     </div>
                     <span class="font-bold text-xs md:text-sm text-gray-200 group-hover:text-accentGold transition">راية للتمويل</span>
                 </div>
@@ -345,7 +345,6 @@
             container.innerHTML = html;
         }
 
-        // دالة بحث ذكية (بالاسم، السعر، النوع، أو المواصفات)
         window.filterCars = function() {
             const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
             if (!query) {
