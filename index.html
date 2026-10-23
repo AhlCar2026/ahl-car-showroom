@@ -26,6 +26,17 @@
             background-size: cover;
             background-position: center;
         }
+        /* حركة الرفرفة أو الطفو الانسيابي للشعارات */
+        @keyframes floatWave {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-6px) scale(1.02); }
+        }
+        .animated-bank-card {
+            animation: floatWave 3.5s ease-in-out infinite;
+        }
+        .animated-bank-card:nth-child(2) { animation-delay: 0.4s; }
+        .animated-bank-card:nth-child(3) { animation-delay: 0.8s; }
+        .animated-bank-card:nth-child(4) { animation-delay: 1.2s; }
     </style>
 </head>
 <body class="bg-darkBg text-white font-sans antialiased overflow-x-hidden selection:bg-accentGold selection:text-darkBg">
@@ -104,7 +115,7 @@
         </div>
     </section>
 
-    <!-- قسم شركاء النجاح والبنوك المعتمدة -->
+    <!-- قسم شركاء النجاح والبنوك المعتمدة (بشكل شبكي كبير ووضوح كامل مع حركة رفرفة متحركة) -->
     <section class="py-12 bg-cardBg/40 border-y border-gray-800 px-4">
         <div class="container mx-auto max-w-6xl text-center space-y-6">
             <div class="space-y-1">
@@ -112,32 +123,32 @@
                 <h2 class="text-xl md:text-2xl font-bold text-white">معتمدون لدى كبرى البنوك وشركات التمويل لتسهيل امتلاك سيارتك</h2>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
                 <!-- مصرف الراجحي -->
-                <div class="bg-cardBg border border-gray-800 p-4 md:p-5 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-lg group">
-                    <div class="w-16 h-12 bg-white rounded-xl flex items-center justify-center p-1.5 shadow group-hover:scale-105 transition">
-                        <img src="alrajhi.png.jpeg" alt="مصرف الراجحي" class="max-h-full max-w-full object-contain">
+                <div class="bg-cardBg border border-gray-800 p-4 md:p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-xl group animated-bank-card">
+                    <div class="w-full h-20 md:h-24 bg-white rounded-xl flex items-center justify-center p-2 shadow-inner group-hover:scale-105 transition">
+                        <img src="alrajhi.png.jpeg" alt="مصرف الراجحي" class="w-full h-full object-contain">
                     </div>
                     <span class="font-bold text-xs md:text-sm text-gray-200 group-hover:text-accentGold transition">مصرف الراجحي</span>
                 </div>
                 <!-- البنك الأهلي السعودي SNB -->
-                <div class="bg-cardBg border border-gray-800 p-4 md:p-5 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-lg group">
-                    <div class="w-16 h-12 bg-white rounded-xl flex items-center justify-center p-1.5 shadow group-hover:scale-105 transition">
-                        <img src="snb.png.jpeg" alt="البنك الأهلي السعودي" class="max-h-full max-w-full object-contain">
+                <div class="bg-cardBg border border-gray-800 p-4 md:p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-xl group animated-bank-card">
+                    <div class="w-full h-20 md:h-24 bg-white rounded-xl flex items-center justify-center p-2 shadow-inner group-hover:scale-105 transition">
+                        <img src="snb.png.jpeg" alt="البنك الأهلي السعودي" class="w-full h-full object-contain">
                     </div>
                     <span class="font-bold text-xs md:text-sm text-gray-200 group-hover:text-accentGold transition">البنك الأهلي السعودي SNB</span>
                 </div>
                 <!-- البنك السعودي الفرنسي -->
-                <div class="bg-cardBg border border-gray-800 p-4 md:p-5 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-lg group">
-                    <div class="w-16 h-12 bg-white rounded-xl flex items-center justify-center p-1.5 shadow group-hover:scale-105 transition">
-                        <img src="fransi.png.jpeg" alt="البنك السعودي الفرنسي" class="max-h-full max-w-full object-contain">
+                <div class="bg-cardBg border border-gray-800 p-4 md:p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-xl group animated-bank-card">
+                    <div class="w-full h-20 md:h-24 bg-white rounded-xl flex items-center justify-center p-2 shadow-inner group-hover:scale-105 transition">
+                        <img src="fransi.png.jpeg" alt="البنك السعودي الفرنسي" class="w-full h-full object-contain">
                     </div>
                     <span class="font-bold text-xs md:text-sm text-gray-200 group-hover:text-accentGold transition">البنك السعودي الفرنسي</span>
                 </div>
                 <!-- راية للتمويل -->
-                <div class="bg-cardBg border border-gray-800 p-4 md:p-5 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-lg group">
-                    <div class="w-16 h-12 bg-white rounded-xl flex items-center justify-center p-1.5 shadow group-hover:scale-105 transition">
-                        <img src="raya.jpeg" alt="راية للتمويل" class="max-h-full max-w-full object-contain">
+                <div class="bg-cardBg border border-gray-800 p-4 md:p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:border-accentGold transition duration-300 shadow-xl group animated-bank-card">
+                    <div class="w-full h-20 md:h-24 bg-white rounded-xl flex items-center justify-center p-2 shadow-inner group-hover:scale-105 transition">
+                        <img src="raya.jpeg" alt="راية للتمويل" class="w-full h-full object-contain">
                     </div>
                     <span class="font-bold text-xs md:text-sm text-gray-200 group-hover:text-accentGold transition">راية للتمويل</span>
                 </div>
@@ -254,7 +265,6 @@
                     window.allCarsData.push(car);
                 });
 
-                // ترتيب السيارات لتظهر الإعلانات المضافة حديثاً في المقدمة
                 window.allCarsData.sort((a, b) => {
                     const timeA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
                     const timeB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
