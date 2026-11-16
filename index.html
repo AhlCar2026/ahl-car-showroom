@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>معرض الميزاني للسيارات - لبيع وشراء واستيراد والمعدات الثقيلة</title>
+    <title>معرض أعمال الميزاني للسيارات - لبيع وشراء واستيراد والمعدات الثقيلة</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.8/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -46,7 +46,7 @@
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3 space-x-reverse">
                 <a href="index.html" class="text-xl md:text-2xl font-bold text-accentGold flex items-center gap-2">
-                    <i class="fa-solid fa-car-side"></i>معرض الميزاني للسيارات
+                    <i class="fa-solid fa-car-side"></i>معرض أعمال الميزاني للسيارات
                 </a>
             </div>
             <nav class="hidden md:flex space-x-6 space-x-reverse text-gray-300 font-medium">
@@ -72,21 +72,21 @@
     <section class="relative py-28 md:py-40 text-center overflow-hidden border-b border-gray-800">
         <div class="swiper heroSlider absolute inset-0 z-0">
             <div class="swiper-wrapper hero-slider-bg">
-                <!-- خلفية 0: صورة الغلاف المرفوعة للمعرض تدعم PNG و JPG -->
-                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('car-cover.png'), url('car-cover.jpg');"></div>
+                <!-- خلفية 0: صورة الغلاف المرفوعة للمعرض تدعم PNG و JPG بطبقة تفتيح بسيطة لإظهار الصورة بوضوح -->
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.4), rgba(11, 15, 25, 0.75)), url('car-cover.png'), url('car-cover.jpg');"></div>
                 <!-- خلفية 1: سيارات فاخرة مختلفة -->
-                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');"></div>
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.6), rgba(11, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');"></div>
                 <!-- خلفية 2: معدات ثقيلة -->
-                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758');"></div>
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.6), rgba(11, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1581092160607-ee22621dd758');"></div>
                 <!-- خلفية 3: سيارات نقل وشاحنات -->
-                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1519003722824-194d4455a60c');"></div>
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.6), rgba(11, 15, 25, 0.85)), url('https://images.unsplash.com/photo-1519003722824-194d4455a60c');"></div>
             </div>
         </div>
 
         <div class="container mx-auto max-w-5xl relative z-10 px-4 flex flex-col items-center">
             <!-- اسم المعرض والعبارة التحتية -->
             <h2 class="text-2xl md:text-4xl font-extrabold mb-2 text-white tracking-tight drop-shadow-lg">
-                <span class="text-accentGold">معرض الميزاني</span> للسيارات
+                <span class="text-accentGold">معرض أعمال الميزاني</span> للسيارات
             </h2>
             <p class="text-sm md:text-lg font-semibold text-accentGold mb-6 tracking-wide drop-shadow">
                 لبيع وشراء واستيراد والمعدات الثقيلة
@@ -220,7 +220,7 @@
     <!-- Footer -->
     <footer class="bg-cardBg border-t border-gray-800 py-8 text-center text-gray-400 text-xs md:text-sm">
         <div class="container mx-auto px-4 space-y-2">
-            <p class="text-gray-200 font-bold text-base">معرض الميزاني للسيارات - لبيع وشراء واستيراد والمعدات الثقيلة</p>
+            <p class="text-gray-200 font-bold text-base">معرض أعمال الميزاني للسيارات - لبيع وشراء واستيراد والمعدات الثقيلة</p>
             <p><i class="fa-brands fa-whatsapp text-green-500 ml-1"></i> للتواصل واتساب: <a href="https://wa.me/966573634794" target="_blank" class="text-accentGold font-bold hover:underline">0573634794</a></p>
             <p class="text-gray-500">جميع حقوق الطبع والنشر محفوظة © 2026</p>
         </div>
@@ -324,7 +324,7 @@
 
                 const imgIdx = window.homeImageIndexes[carKey];
                 const currentImg = imagesArray[imgIdx] || imagesArray[0];
-                const whatsappMsg = encodeURIComponent(`مرحباً بمعرض الميزاني للسيارات، أرغب بالاستفسار عن العرض: ${carName} بسعر ${carPrice}`);
+                const whatsappMsg = encodeURIComponent(`مرحباً بمعرض أعمال الميزاني للسيارات، أرغب بالاستفسار عن العرض: ${carName} بسعر ${carPrice}`);
 
                 html += `
                     <div class="bg-gradient-to-b from-cardBg to-[#161f33] rounded-2xl overflow-hidden shadow-2xl border border-gray-800 hover:border-accentGold transition-all duration-300 flex flex-col justify-between group transform hover:-translate-y-1">
