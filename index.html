@@ -72,6 +72,8 @@
     <section class="relative py-28 md:py-40 text-center overflow-hidden border-b border-gray-800">
         <div class="swiper heroSlider absolute inset-0 z-0">
             <div class="swiper-wrapper hero-slider-bg">
+                <!-- خلفية 0: صورة الغلاف المرفوعة للمعرض (car-cover.png) -->
+                <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('car-cover.png');"></div>
                 <!-- خلفية 1: سيارات فاخرة مختلفة -->
                 <div class="swiper-slide" style="background-image: linear-gradient(to bottom, rgba(11, 15, 25, 0.75), rgba(11, 15, 25, 0.95)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70');"></div>
                 <!-- خلفية 2: معدات ثقيلة -->
@@ -90,7 +92,7 @@
                 لبيع وشراء واستيراد والمعدات الثقيلة
             </p>
 
-            <!-- الشعار المتحرك (محدث ليعمل مع logo.png) -->
+            <!-- الشعار المتحرك -->
             <div class="mb-6 w-28 h-28 md:w-36 md:h-36 bg-white/95 border-2 border-accentGold rounded-full flex items-center justify-center p-2.5 shadow-[0_0_35px_rgba(245,158,11,0.4)] backdrop-blur-md animated-bank-card">
                 <img src="logo.png" alt="شعار المعرض" class="w-full h-full object-contain rounded-full">
             </div>
@@ -338,154 +340,4 @@
                                 <button onclick="event.stopPropagation(); changeHomeImage('${carKey}', 1)" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/70 hover:bg-accentGold hover:text-darkBg text-white w-9 h-9 rounded-full flex items-center justify-center transition shadow-lg z-10" title="الصورة التالية">
                                     <i class="fa-solid fa-chevron-left text-xs"></i>
                                 </button>
-                                <span class="absolute bottom-3 left-3 bg-black/80 text-xs px-2.5 py-1 rounded-lg text-accentGold font-bold z-10 border border-gray-700">
-                                    <i class="fa-solid fa-images ml-1"></i> ${imgIdx + 1} / ${imagesArray.length}
-                                </span>
-                            ` : ''}
-
-                            <div class="absolute top-3 left-3 bg-accentGold text-darkBg px-3 py-1 rounded-lg text-xs font-extrabold shadow-md z-10">
-                                ${carType}
-                            </div>
-                        </div>
-
-                        <div class="p-4 md:p-6 flex-1 flex flex-col justify-between space-y-4">
-                            <div>
-                                <h3 class="text-base md:text-xl font-bold text-white group-hover:text-accentGold transition mb-2 line-clamp-1">${carName}</h3>
-                                <div class="flex items-center gap-3 text-gray-400 text-xs md:text-sm mb-3">
-                                    <span><i class="fa-regular fa-calendar-days text-accentGold ml-1"></i> ${carYear}</span>
-                                    <span>•</span>
-                                    <span><i class="fa-solid fa-car-side text-accentGold ml-1"></i> ${carType}</span>
-                                </div>
-                                
-                                <div class="bg-darkBg/60 border border-gray-800/80 rounded-xl p-3 flex justify-between items-center mt-3 shadow-inner">
-                                    <span class="text-gray-400 text-xs">السعر شامل الضريبة</span>
-                                    <span class="text-accentGold font-black text-base md:text-lg">${carPrice}</span>
-                                </div>
-                            </div>
-
-                            <div class="pt-2">
-                                <a href="https://wa.me/966573634794?text=${whatsappMsg}" target="_blank" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-3 rounded-xl transition duration-300 text-center text-xs md:text-sm flex items-center justify-center gap-2 shadow-lg">
-                                    <i class="fa-brands fa-whatsapp text-lg"></i> استفسر عبر واتساب
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        window.filterCars = function() {
-            const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
-            if (!query) {
-                renderCarsGrid(window.allCarsData);
-                return;
-            }
-
-            const filtered = window.allCarsData.filter(car => {
-                const name = (car.name || '').toLowerCase();
-                const price = (car.price || '').toLowerCase();
-                const desc = (car.description || car.desc || '').toLowerCase();
-                const type = (car.type || '').toLowerCase();
-                const typeText = type === 'used' ? 'مستعمل' : 'جديد';
-
-                return name.includes(query) || price.includes(query) || desc.includes(query) || type.includes(query) || typeText.includes(query);
-            });
-
-            renderCarsGrid(filtered);
-        }
-
-        window.changeHomeImage = function(carKey, direction) {
-            let car = window.allCarsData.find(c => c.firestoreId === carKey);
-            if (!car) return;
-            let imagesArray = [];
-            if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
-            else if (car.image) imagesArray = [car.image];
-            else imagesArray = ['https://images.unsplash.com/photo-1553440569-bcc63803a83d'];
-
-            if (imagesArray.length > 1) {
-                let current = window.homeImageIndexes[carKey] || 0;
-                current += direction;
-                if (current < 0) current = imagesArray.length - 1;
-                if (current >= imagesArray.length) current = 0;
-                window.homeImageIndexes[carKey] = current;
-                
-                const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
-                if (query) {
-                    filterCars();
-                } else {
-                    renderCarsGrid(window.allCarsData);
-                }
-            }
-        }
-
-        window.openImageModal = function(carKey) {
-            window.currentModalCarKey = carKey;
-            let car = window.allCarsData.find(c => c.firestoreId === carKey);
-            if (!car) return;
-
-            let imagesArray = [];
-            if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
-            else if (car.image) imagesArray = [car.image];
-            else imagesArray = ['https://images.unsplash.com/photo-1553440569-bcc63803a83d'];
-
-            const currentIdx = window.homeImageIndexes[carKey] || 0;
-            const modalImg = document.getElementById('modalImg');
-            modalImg.src = imagesArray[currentIdx];
-
-            const prevBtn = document.getElementById('modalPrevBtn');
-            const nextBtn = document.getElementById('modalNextBtn');
-            const counter = document.getElementById('modalCounter');
-
-            if (imagesArray.length > 1) {
-                prevBtn.classList.remove('hidden');
-                nextBtn.classList.remove('hidden');
-                counter.classList.remove('hidden');
-                counter.innerText = `${currentIdx + 1} / ${imagesArray.length}`;
-            } else {
-                prevBtn.classList.add('hidden');
-                nextBtn.classList.add('hidden');
-                counter.classList.add('hidden');
-            }
-
-            document.getElementById('imageModal').classList.remove('hidden');
-        }
-
-        window.changeModalImage = function(direction) {
-            const carKey = window.currentModalCarKey;
-            let car = window.allCarsData.find(c => c.firestoreId === carKey);
-            if (!car) return;
-
-            let imagesArray = [];
-            if (Array.isArray(car.images) && car.images.length > 0) imagesArray = car.images;
-            else if (car.image) imagesArray = [car.image];
-            else imagesArray = ['https://images.unsplash.com/photo-1553440569-bcc63803a83d'];
-
-            if (imagesArray.length > 1) {
-                let current = window.homeImageIndexes[carKey] || 0;
-                current += direction;
-                if (current < 0) current = imagesArray.length - 1;
-                if (current >= imagesArray.length) current = 0;
-                window.homeImageIndexes[carKey] = current;
-
-                document.getElementById('modalImg').src = imagesArray[current];
-                document.getElementById('modalCounter').innerText = `${current + 1} / ${imagesArray.length}`;
-                
-                const query = document.getElementById('aiSearchInput').value.trim().toLowerCase();
-                if (query) {
-                    filterCars();
-                } else {
-                    renderCarsGrid(window.allCarsData);
-                }
-            }
-        }
-
-        window.closeImageModal = function() {
-            document.getElementById('imageModal').classList.add('hidden');
-            window.currentModalCarKey = null;
-        }
-
-        loadCarsGridList();
-    </script>
-</body>
-</html>
+                                <span class="absolute bottom-3 left-3 bg-black/80 text
